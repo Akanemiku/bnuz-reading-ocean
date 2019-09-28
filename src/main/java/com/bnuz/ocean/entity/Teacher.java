@@ -2,13 +2,14 @@ package com.bnuz.ocean.entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Data
 @Entity
 @Table(name = "t_teacher_info")
 public class Teacher {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer teacherId;
 
     private String teacherName;

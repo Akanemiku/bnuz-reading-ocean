@@ -2,14 +2,15 @@ package com.bnuz.ocean.entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Data
 @Entity
 @Table(name = "t_answer_info")
 public class Answer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer answerId;
 
     private Integer questionId;

@@ -1,0 +1,32 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: bnuz-reading-ocean
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    platform: mysql
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://47.100.93.218/ReadingOcean?serverTimezone=GMT%2B8&useSSL=false&characterEncoding=UTF-8
+    username: akane
+    password: 6458
+    druid:
+      initial-size: 2
+      min-idle: 2
+      max-active: 8
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      filters: stat,wall
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      stat-view-servlet:
+        url-pattern: "/druid/*"
+        login-username: akane
+        login-password: 6458
+  jpa:
+    show-sql: true

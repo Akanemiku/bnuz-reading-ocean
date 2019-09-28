@@ -11,7 +11,7 @@
     <groupId>com.bnuz</groupId>
     <artifactId>ocean</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>ocean</name>
+    <name>bnuz-reading-ocean</name>
     <description>Reading Ocean project for Spring Boot</description>
 
     <properties>
@@ -30,6 +30,13 @@
         </dependency>
 
         <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.46</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
@@ -37,6 +44,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>1.1.10</version>
         </dependency>
     </dependencies>
 
