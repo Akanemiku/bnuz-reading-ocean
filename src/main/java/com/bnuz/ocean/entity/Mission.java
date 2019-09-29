@@ -13,6 +13,8 @@ public class Mission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer missionId;
 
+    private String teacherNo;
+
     private String missionTitle;
 
     private Integer missionCate;
