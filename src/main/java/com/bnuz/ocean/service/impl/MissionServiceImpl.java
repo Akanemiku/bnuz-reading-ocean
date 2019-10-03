@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -20,10 +21,15 @@ public class MissionServiceImpl implements MissionService {
     private MissionRepository missionRepository;
 
     @Override
-    public Page<MissionVO> findList(String teacherNo, Pageable pageable) {
-        Page<Mission> missionPage = missionRepository.findAllByTeacherNo(teacherNo, pageable);
-        List<MissionVO> missionVOList = Mission2MissionVOConverter.convert(missionPage.getContent());
-        Page<MissionVO> missionVOPage = new PageImpl<>(missionVOList, pageable, missionPage.getTotalElements());
-        return missionVOPage;
+    public Page<Mission> findList(String teacherNo, Pageable pageable) {
+//        List<MissionVO> missionVOList = Mission2MissionVOConverter.convert(missionPage.getContent());
+//        Page<MissionVO> missionVOPage = new PageImpl<>(missionVOList, pageable, missionPage.getTotalElements());
+        return missionRepository.findAllByTeacherNo(teacherNo, pageable);
+    }
+
+    @Override
+    @Transactional
+    public Mission save(Mission mission) {
+        return missionRepository.save(mission);
     }
 }

@@ -14,13 +14,7 @@ public class Student {
 
     private String studentNo;
 
-    private String studentName;
-
-    private String studentSchool;
-
-    private String studentGrade;
-
-    private String studentClass;
+    private String studentInfo;
 
     private String studentScore;
 }

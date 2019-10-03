@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.11/css/bootstrap-select.min.css"
+          rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/flatpickr.css}">
+    <script type="text/javascript" th:src="@{/js/flatpickr.min.js}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#pick1').flatpickr();
+            $('#pick2').flatpickr();
+        });
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-default navbar-static-top" th:include="common/nav::common-nav"></nav>
+
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <form role="form" method="post" action="/mission/save">
+                <div class="form-group">
+                    <label>任务题目</label>
+                    <input name="title" type="text" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label>选择任务</label><br>
+                    <select name="cate" class="form-control selectpicker" multiple data-actions-box="true">
+                        <option value="1">朗读</option>
+                        <option value="2">读后感</option>
+                        <option value="3">答题</option>
+                        <option value="4">思维导图</option>
+                        <option value="5">插画</option>
+                        <option value="6">笔记</option>
+                        <option value="7">短评</option>
+                        <option value="8">背诵</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>任务描述</label>
+                    <input name="desc" type="text" class="form-control"
+                    />
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label>选择任务对象</label>
+                    <select name="student" class="form-control selectpicker" multiple
+                            data-live-search="true" data-actions-box="true">
+                        <option th:each="student:${studentList}"
+                                th:value="${student.getStudentId()}"
+                                th:text="${student.getStudentInfo()}"></option>
+                    </select>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label>选择阅读书籍</label>
+                    <select name="book" class="form-control selectpicker" multiple
+                            data-live-search="true" data-actions-box="true">
+                        <option th:each="book:${bookList}"
+                                th:value="${book.getBookId()}"
+                                th:text="${book.getBookName()}"></option>
+                    </select>
+
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label>开始时间</label>
+                    <input name="beginTime" class="flatpickr form-control pick" id="pick1"
+                    />
+                </div>
+                <div class="form-group">
+                    <label>结束时间</label>
+                    <input name="endTime" class="flatpickr form-control pick" id="pick2"
+                    />
+                </div>
+                <input hidden type="text" name="teacherNo" th:value="${teacherNo}">
+                <button type="submit" class="btn btn-default">提交</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,6 +1,7 @@
 package com.bnuz.ocean.repository;
 
 import com.bnuz.ocean.entity.Mission;
+import com.bnuz.ocean.entity.Student;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
