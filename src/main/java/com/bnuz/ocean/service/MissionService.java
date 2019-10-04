@@ -11,4 +11,8 @@ public interface MissionService {
     Page<Mission> findList(String teacherNo, Pageable pageable);
 
     Mission save(Mission mission);
+
+    Mission findAllByMissionId(Integer missionId);
+
+    void deleteByMissionId(Integer missionId);
 }

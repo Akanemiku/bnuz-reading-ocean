@@ -8,6 +8,7 @@ import java.util.List;
 
 @Data
 public class MissionDTO {
+    private Integer missionId;
     private String title;
     private String teacherNo;
     private Integer cate;

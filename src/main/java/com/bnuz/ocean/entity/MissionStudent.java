@@ -14,5 +14,11 @@ public class MissionStudent {
     @EmbeddedId
     private MissionStudentId missionStudentId;
 
-    private Integer complete;
+    private Integer complete = 0;
+
+    public MissionStudent(MissionStudentId missionStudentId) {
+        this.missionStudentId = missionStudentId;
+    }
+
+    public MissionStudent(){}
 }

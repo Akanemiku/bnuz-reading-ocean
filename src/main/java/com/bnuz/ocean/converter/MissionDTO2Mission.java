@@ -11,6 +11,7 @@ import java.util.Date;
 public class MissionDTO2Mission {
     public static Mission convert(MissionDTO missionDTO) throws ParseException {
         Mission mission = new Mission();
+        mission.setMissionId(missionDTO.getMissionId());
         mission.setMissionTitle(missionDTO.getTitle());
         mission.setTeacherNo(missionDTO.getTeacherNo());
         mission.setMissionCate(missionDTO.getCate());

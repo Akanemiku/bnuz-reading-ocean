@@ -13,4 +13,9 @@ import javax.persistence.Table;
 public class MissionBook {
     @EmbeddedId
     private MissionBookId missionBookId;
+
+    public MissionBook(MissionBookId missionBookId) {
+        this.missionBookId = missionBookId;
+    }
+    public MissionBook(){}
 }

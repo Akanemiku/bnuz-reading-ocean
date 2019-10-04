@@ -32,4 +32,15 @@ public class MissionServiceImpl implements MissionService {
     public Mission save(Mission mission) {
         return missionRepository.save(mission);
     }
+
+    @Override
+    public Mission findAllByMissionId(Integer missionId) {
+        return missionRepository.findAllByMissionId(missionId);
+    }
+
+    @Override
+    @Transactional
+    public void deleteByMissionId(Integer missionId){
+        missionRepository.deleteByMissionId(missionId);
+    }
 }

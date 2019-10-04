@@ -14,4 +14,11 @@ public class MissionBookId implements Serializable {
     private Integer missionId;
 
     private Integer bookId;
+
+    public MissionBookId(Integer missionId, Integer bookId) {
+        this.missionId = missionId;
+        this.bookId = bookId;
+    }
+
+    public MissionBookId(){}
 }

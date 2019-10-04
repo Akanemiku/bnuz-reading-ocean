@@ -14,4 +14,11 @@ public class MissionStudentId implements Serializable {
     private Integer missionId;
 
     private Integer studentId;
+
+    public MissionStudentId(Integer missionId, Integer studentId) {
+        this.missionId = missionId;
+        this.studentId = studentId;
+    }
+
+    public MissionStudentId(){}
 }

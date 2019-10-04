@@ -4,9 +4,9 @@ import com.bnuz.ocean.DTO.MissionDTO;
 import com.bnuz.ocean.VO.MissionVO;
 import com.bnuz.ocean.VO.ResultVO;
 import com.bnuz.ocean.converter.MissionDTO2Mission;
-import com.bnuz.ocean.entity.Book;
-import com.bnuz.ocean.entity.Mission;
-import com.bnuz.ocean.entity.Student;
+import com.bnuz.ocean.entity.*;
+import com.bnuz.ocean.entity.id.MissionBookId;
+import com.bnuz.ocean.entity.id.MissionStudentId;
 import com.bnuz.ocean.enums.ResultEnum;
 import com.bnuz.ocean.exception.OceanException;
 import com.bnuz.ocean.repository.StudentRepository;
@@ -39,57 +39,80 @@ public class MissionController {
     private MissionBookService missionBookService;
 
     @GetMapping("/list")
-    public String list(@RequestParam(value = "teacherNo",defaultValue = "233") String teacherNo,
-                         @PageableDefault(size = 2) Pageable pageable, Model model) {
+    public String list(@RequestParam(value = "teacherNo", defaultValue = "233") String teacherNo,
+                       @PageableDefault(size = 2) Pageable pageable, Model model) {
 
-        Page<Mission> missionPage = missionService.findList(teacherNo,pageable);
-        model.addAttribute("missionPage",missionPage);
-        model.addAttribute("teacherNo",teacherNo);
-        model.addAttribute("current",pageable.getPageNumber());
-        model.addAttribute("size",pageable.getPageSize());
+        Page<Mission> missionPage = missionService.findList(teacherNo, pageable);
+        model.addAttribute("missionPage", missionPage);
+        model.addAttribute("teacherNo", teacherNo);
+        model.addAttribute("current", pageable.getPageNumber());
+        model.addAttribute("size", pageable.getPageSize());
         return "mission/list";
     }
 
     @GetMapping("/index")
-    public String index(@RequestParam(value = "teacherNo",defaultValue = "233")Integer teacherNo,
-                        Model model){
+    public String index(@RequestParam(value = "teacherNo", defaultValue = "233") Integer teacherNo,
+                        @RequestParam(value = "missionId", required = false) Integer missionId,
+                        Model model) {
         List<Student> studentList = studentService.findAll();
         List<Book> bookList = bookService.findAll();
 
-        model.addAttribute("studentList",studentList);
-        model.addAttribute("bookList",bookList);
-        model.addAttribute("teacherNo",teacherNo);
+        model.addAttribute("studentList", studentList);
+        model.addAttribute("bookList", bookList);
+        model.addAttribute("teacherNo", teacherNo);
+
+        if (missionId != null) {
+            Mission mission = missionService.findAllByMissionId(missionId);
+            model.addAttribute("mission", mission);
+        } else {
+            model.addAttribute("mission", null);
+        }
 
         return "mission/index";
     }
 
     @PostMapping("/save")
-    public String save(MissionDTO missionDTO,Model model){
+    public String save(MissionDTO missionDTO, Model model) {
         System.out.println(missionDTO.toString());
         try {
             Mission mission = MissionDTO2Mission.convert(missionDTO);
             List<Integer> students = missionDTO.getStudent();
             List<Integer> books = missionDTO.getBook();
 
-            try{
+            try {
                 missionService.save(mission);
-            }catch (OceanException e){
+            } catch (OceanException e) {
                 model.addAttribute("msg", ResultEnum.MISSION_INSERT_ERROR.getCode());
                 return "common/error";
             }
-            try{
+            try {
+                List<MissionStudent> missionStudentList = missionStudentService.findAll(mission.getMissionId());
+                for (MissionStudent missionStudent : missionStudentList) {
+                        missionStudentService.deleteByMissionId(missionStudent.getMissionStudentId().getMissionId());
+                }
                 for (Integer student : students) {
+                    //不能用jpa自带save，会进行持久化导致刚刚删除的同样数据无法再次插入
                     missionStudentService.insert(mission.getMissionId(), student);
                 }
-            }catch (OceanException e){
+//                List<MissionStudent> missionStudentList = missionStudentService.findAll(mission.getMissionId());
+//                for(MissionStudent missionStudent : missionStudentList){
+//                    if(!students.contains(missionStudent.getMissionStudentId().getStudentId())){
+//                        missionStudentService.deleteByMissionId(missionStudent.getMissionStudentId().getMissionId());
+//                    }
+//                }
+            } catch (OceanException e) {
                 model.addAttribute("msg", ResultEnum.M_S_INSERT_ERROR.getCode());
                 return "common/error";
             }
-            try{
-                for(Integer book : books){
-                    missionBookService.insert(mission.getMissionId(),book);
+            try {
+                List<MissionBook> missionBookList = missionBookService.findAll(mission.getMissionId());
+                for (MissionBook missionBook : missionBookList) {
+                    missionBookService.deleteByMissionId(missionBook.getMissionBookId().getMissionId());
                 }
-            }catch (OceanException e){
+                for (Integer book : books) {
+                    missionBookService.insert(mission.getMissionId(), book);
+                }
+            } catch (OceanException e) {
                 model.addAttribute("msg", ResultEnum.M_B_INSERT_ERROR.getCode());
                 return "common/error";
             }
@@ -102,6 +125,13 @@ public class MissionController {
 
     }
 
-
+    @GetMapping("/delete")
+    public String delete(@RequestParam(value = "missionId", required = true) Integer missionId,
+                         Model model){
+        missionService.deleteByMissionId(missionId);
+        missionBookService.deleteByMissionId(missionId);
+        missionStudentService.deleteByMissionId(missionId);
+        return "common/success";
+    }
 
 }

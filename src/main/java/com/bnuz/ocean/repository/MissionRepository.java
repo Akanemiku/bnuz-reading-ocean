@@ -15,4 +15,11 @@ public interface MissionRepository extends JpaRepository<Mission,Integer> {
 
     Page<Mission> findAllByTeacherNo(String teacherNo, Pageable pageable);
 
+    Mission findAllByMissionId(Integer missionId);
+
+//    @Query(nativeQuery = true,value = "delete from t_mission_info where mission_id=?1")
+//    void delete(Integer missionId);
+
+    void deleteByMissionId(Integer missionId);
+
 }
