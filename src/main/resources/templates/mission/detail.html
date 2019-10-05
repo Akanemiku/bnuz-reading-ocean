@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>任务详情</title>
+    <link rel="stylesheet" href="/css/mission/taskDetail.css" type="text/css" th:href="@{/css/mission/taskDetail.css}">
+    <link rel="stylesheet" href="/css/mission/xpager.css" type="text/css" th:href="@{/css/mission/xpager.css}">
+</head>
+<body class="pTask">
+<input type="hidden" value="/ReadingOcean">
+<!-- 插入公共头部 -->
+
+
+
+
+<!-- 公共头部样式 -->
+<style>
+    /* common */
+    body {
+        font-family: 'Hiragino Sans GB', 'Microsoft YaHei',
+        'WenQuanYi Micro Hei', sans-serif;
+        width: 100%;
+        height: 100%;
+        background: url(/img/readingOceanBackgroud.jpg) fixed center
+        no-repeat;
+        background-size: cover;
+    }
+
+    /* header */
+    .common-header {
+        position: relative;
+        height: 100px;
+        margin: 0 auto;
+        padding: 17px 0px;
+        text-align: center;
+        background-color: rgba(36, 36, 21, .4);
+    }
+
+    @media all and (orientation : portrait){
+    }
+    @media all and (orientation : landscape){
+        .common-header {
+            width: 1160px;
+            min-width: 960px;
+        }
+        .common-header-bubugao {
+            width:900px;
+            min-width: 960px;
+        }
+    }
+
+    .common-header .common-header-logo {
+        display: block;
+        float: left;
+        width: 70px;
+    }
+    .common-header-logo {
+        position: relative;
+        left: 10px;
+    }
+    .common-header .common-header-nav {
+        position: relative;
+        right: 40px;
+        display: inline-block;
+        padding: 10px;
+        border-radius: 25px;
+        background: linear-gradient(#0080ff, #0c61b8);
+    }
+
+    .common-header .common-header-nav li {
+        font-size: 1em;
+        float: left;
+        list-style: none;
+    }
+
+    .common-header .common-header-nav li a {
+        display: block;
+        width: 100px;
+        margin: 0 5px;
+        padding: 7px 0;
+        transition: .4s;
+        text-align: center;
+        color: #fff;
+        border-radius: 15px;
+        text-decoration: none;
+    }
+
+    .common-header .common-header-nav li a:hover {
+        color: #0c61b8;
+        background-color: #fff;
+    }
+    /* 实现导航高亮 */
+    body.index a.index {
+        color: #0c61b8;
+        background-color: #fff;
+    }
+
+    body.scoreAnswer a.scoreAnswer {
+        color: #0c61b8;
+        background-color: #fff;
+    }
+
+    body.forum a.forum {
+        color: #0c61b8;
+        background-color: #fff;
+    }
+
+    body.book a.book {
+        color: #0c61b8;
+        background-color: #fff;
+    }
+
+    body.task a.task {
+        color: #0c61b8;
+        background-color: #fff;
+    }
+
+
+    body.pTask a.pTask {
+        color: #0c61b8;
+        background-color: #fff;
+    }
+
+
+    body.readForum a.readForum {
+        color: #0c61b8;
+        background-color: #fff;
+    }
+
+
+    body.oceanWorld a.oceanWorld {
+        color: #0c61b8;
+        background-color: #fff;
+    }
+
+
+    body.tiny a.tiny {
+        color: #0c61b8;
+        background-color: #fff;
+    }
+    /* 实现导航高亮 结束*/
+    .common-header .common-header-personal {
+        position: absolute;
+        z-index: 1;
+        top: 25px;
+        right: 5px;
+        display: inline-block;
+        float: right;
+        transition: .3s;
+        border-radius: 15px;
+    }
+
+    .common-header .common-header-personal li img {
+        position: absolute;
+        top: -3px;
+        left: -25px;
+        width: 50px;
+        height: 50px;
+        border: 2px solid #3cabdf;
+        border-radius: 50%;
+        background-color: #fff;
+    }
+
+    .common-header .common-header-personal>li>a {
+        display: block;
+        width: 100px;
+        padding: 11px;
+        color: #fff;
+        border-radius: 15px;
+        background-color: #3cabdf;
+        text-decoration: none;
+    }
+
+    .common-header .common-header-personal>li:hover ul {
+        display: block;
+    }
+
+    .common-header .common-header-personal li a:hover {
+        background-color: #188bd0;
+    }
+
+    .common-header .common-header-personal li ul {
+        display: none;
+        overflow: hidden;
+        width:100px;
+        margin: 0 auto;
+        border-top: none;
+        border-bottom-right-radius: 15px;
+        border-bottom-left-radius: 15px;
+    }
+
+    .common-header .common-header-personal li ul a {
+        display: block;
+        margin: 0 auto;
+        padding: 8px 3px;
+        transition: .4s;
+        color: #fff;
+        background-color: #3cabdf;
+        text-decoration: none;
+    }
+
+    .common-header .common-header-personal li ul li+li a {
+        border-top: 2px solid #3cabdf;
+    }
+
+    /*修改密码弹出层*/
+    #common-popup {
+        background: rgba(188, 188, 188, .5);
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        bottom: 0;
+        left: 0;
+        display: none;
+        z-index: 2;
+    }
+
+    #common-modifyForm {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        margin-top: -180px;
+        margin-left: -180px;
+        width: 360px;
+        height: 330px;
+        padding: 20px;
+        background: #0c61b8;
+        box-shadow: 0px 0px 5px #333;
+        color: #fff;
+        z-index: 3;
+        border-radius: 10px;
+        box-sizing: border-box;
+    }
+
+    #common-modifyForm tr{
+        float: left;
+    }
+
+    #common-modifyForm tr label{
+        text-align: left;
+        display: inline-block;
+        width: 100px;
+        margin: 10px 5px;
+    }
+
+    .common-close {
+        float: right;
+        margin-right: -10px;
+        margin-top: -20px;
+        cursor: pointer;
+    }
+
+    #common-modifyForm h2 {
+        margin-left: 20px;
+        margin-bottom: 20px;
+        font-weight: bold;
+        font-size: 24px;
+    }
+
+    #common-modifyForm input {
+        width: 195px;
+        margin: 10px auto;
+        border-width: 0px;
+        border-radius: 15px;
+        padding: 5px;
+        padding-left: 20px;
+        box-sizing: border-box;
+    }
+
+    #common-modifyForm span input {
+        width: 50px;
+        margin: 10px auto;
+        margin-left: 30px;
+    }
+
+    #savePwd{
+        border-radius: 5px;
+        border: none;
+        font-weight: 700;
+        font-size: 14px;
+        margin-top: 30px;
+        background-color: #5bc0de;
+        color: #fff;
+    }
+
+    #savePwd:hover{
+        background-color: #3cabdf;
+    }
+
+    .c{
+        /* 相对定位 */
+        position: absolute;
+        margin-left:28px;
+        margin-top:-35px;
+        width:12px;
+        height:12px;
+        background:red;
+        border-radius:6px;
+    }
+
+</style>
+<input id="path" type="hidden" value="/ReadingOcean">
+<!-- 用户身份，班级id，学校id，隐藏字段，供js获取使用 -->
+<!-- header 公共头部 -->
+
+
+<div class="common-header ">
+    <!-- 头部logo -->
+    <img class="common-header-logo" src="/img/readingOceanLogo.png" alt="logo" th:src="@{/img/readingOceanLogo.png}">
+
+    <!-- 头部导航 -->
+    <ul class="common-header-nav">
+        <li><a class="index" href="https://ro.bnuz.edu.cn/ReadingOcean/user/index">首页</a></li>
+
+
+
+        <li><a class="pTask" href="https://ro.bnuz.edu.cn/ReadingOcean/task/publish">发布任务</a></li>
+        <!-- 隐藏字段，判断用户身份，供js获取使用 -->
+        <span id="userType" style="display: none;">teacher</span>
+
+
+        <li><a class="book" href="https://ro.bnuz.edu.cn/ReadingOcean/book/index?type=suit&amp;suit=1-2&amp;isDone=">书香门第</a></li>
+        <li><a class="forum" href="https://ro.bnuz.edu.cn/ReadingOcean/forum/index">作品社区</a></li>
+
+
+
+
+        <li><a class="oceanWorld" href="https://ro.bnuz.edu.cn/ReadingOcean/ocean/index?userId=9EF8B96D-FDDF-FADE-B44E-5E772AF31D31">海洋世界</a></li>
+
+
+        <li><a class="tiny" href="https://ro.bnuz.edu.cn/ReadingOcean/tinyread/index?type=tinyread_type_video">名师微课</a></li>
+
+
+
+
+        <li><a class="scoreAnswer" href="https://ro.bnuz.edu.cn/ReadingOcean/scoreAnswer/index?type=queryAsk">故事新编</a></li>
+
+
+
+
+
+        <li><a class="readForum" href="https://ro.bnuz.edu.cn/ReadingOcean/forum/indexTeacher?">教师阅读</a></li>
+        <!-- 隐藏字段，判断用户身份，供js获取使用 -->
+        <span id="userType" style="display: none;">teacher</span>
+
+
+    </ul>
+    <!-- 头部个人功能栏 -->
+    <ul class="common-header-personal">
+        <li>
+
+
+
+            <img src="http://ro.bnuz.edu.cn:80/user/middle/9EF8B96D-FDDF-FADE-B44E-5E772AF31D31.jpeg">
+
+
+
+            <a href="#">监测</a>
+            <ul>
+                <li><a href="https://ro.bnuz.edu.cn/ReadingOcean/user/info?type=my">个人中心</a></li>
+                <li><a href="https://ro.bnuz.edu.cn/ReadingOcean/reports/index">阅读报告</a></li>
+                <li><a href="#" onclick="updatePwd()">修改密码</a></li>
+                <li><a href="https://ro.bnuz.edu.cn/ReadingOcean/user/logout" id="logout">退出</a></li>
+            </ul></li>
+    </ul>
+
+
+    <!-- 弹出层 -->
+    <div id="common-popup"></div>
+    <!-- 修改资料表单 -->
+    <div id="common-modifyForm">
+        <h2>
+            修改密码 <span class="common-close" type="button" onclick="closeUpdatePwd()">╳</span>
+        </h2>
+        <table>
+            <tbody><tr>
+                <td><label>旧密码</label></td>
+                <td><input type="password" id="common-oldPwd" name="oldPwd" placeholder="输入旧密码"></td>
+            </tr>
+            <tr>
+                <td><label>新密码</label></td>
+                <td><input id="common-newPwd" type="password" name="newPwd" placeholder="输入新密码"></td>
+            </tr>
+            <tr>
+                <td><label>确认新密码</label></td>
+                <td><input id="common-confirmPwd" type="password" name="confirmPwd" placeholder="再次输入新密码"></td>
+            </tr>
+            </tbody></table>
+        <button id="savePwd" style="padding: 10px 20px;" type="button" onclick="submitForm()">保存</button>
+
+    </div>
+    <script src="https://lib.sinaapp.com/js/jquery/2.0.2/jquery-2.0.2.min.js"></script>
+    <script type="text/javascript">
+        var path = $('#path').val();
+        $(function() {
+            task();
+        });
+        function updatePwd() {
+            $("#common-popup").show();
+            $("#common-modifyForm").show();
+        }
+
+        /* 关闭修改表单 */
+        function closeUpdatePwd() {
+            $("#common-popup").hide();
+            $("#common-modifyForm").hide();
+
+            $("#common-oldPwd").val("");
+            $("#common-newPwd").val("");
+            $("#common-confirmPwd").val("");
+        }
+
+        //提醒是否要提交表单
+        function submitForm(){
+            var flag = true;
+            //检查校验
+            var oldPwd = $("#common-oldPwd").val();
+            var newPwd = $("#common-newPwd").val();
+            var confirmPwd = $("#common-confirmPwd").val();
+            if(oldPwd=="" || newPwd == "" || confirmPwd == ""){
+                alert("输入框不能空");
+                flag = false;
+            }
+            if(newPwd!=confirmPwd){
+                alert("新密码不一致，请再次确认新密码是否输入正确");
+                flag = false;
+            }
+
+            if(flag){
+                var conf=confirm("确定提交吗？ ");
+                if (conf==true){
+                    $.post("/ReadingOcean/user/pwd/modify",{"oldPwd":oldPwd, "newPwd":newPwd},function(data){
+                        if(data.code==200){
+                            alert("修改密码成功!");
+                            closeUpdatePwd();
+                        }else{
+                            alert("修改密码失败！错误代码："+data.code+"；错误信息："+data.result);
+                        }
+                    });
+                }
+            }
+
+        }
+        //有未完成任务时将对学生进行提示
+        function task(){
+            $.ajax({
+                type : "GET",
+                url :path + "/task/isUnfinish",
+                dataType : "json",
+                success : function(data) {
+                    if(parseInt(data.data)>0)
+                    {$(".cc").append('<span class="c"></span>');
+                        $(".task").attr("href",path+'/task/myTask?type=all');
+                    }
+                },
+                error : function() {
+
+                }
+            });
+        }
+    </script>
+</div>
+
+
+
+
+
+<div class="main">
+    <div class="studentId" id=""></div>
+
+    <div class="popup"></div>
+    <div class="Tcompletion">
+        <div class="closeButton">
+            <a class="backTo" href="#">关闭</a>
+        </div>
+        <!-- 详情描述显示 -->
+        <div class="Taskdescription-head">
+            <ul class="Tasktop">
+                <li>任务名</li>
+                <li>今日阅读</li>
+                <li>任务描述</li>
+                <li>童话故事|| 你需要完成的任务类型：读后感.</li>
+                <li>家长评价</li>
+            </ul>
+        </div>
+        <!-- main-category 分类筛选帖子按钮组-->
+        <div class="mainType">
+            <a href="#" class="all">全部</a>
+            <a href="#" class="forum_post_pinglun">短评</a>
+            <a href="#" class="forum_post_duhougan">读后感</a>
+            <a href="#" class="forum_post_huihua">绘画</a>
+            <a href="#" class="forum_post_siwei">思维导图</a>
+            <a href="#" class="forum_post_biji">读书笔记</a>
+            <a href="#" class="forum_post_langsong">朗读</a>
+            <a href="#" class="forum_post_beisong">背诵</a>
+            <a href="#" class="AnswerDetail">答题情况</a>
+        </div><!-- end of  main-category-->
+
+        <!--对应任务的显示 -->
+        <div class="main-posts">
+            <ul class="content">
+                <li class="pinglun"></li>
+                <li class="duhougan"></li>
+                <li class="huihua"></li>
+                <li class="siwei"></li>
+                <li class="biji"></li>
+                <li class="langsong"></li>
+                <li class="beisong"></li>
+            </ul>
+        </div><!-- end of main-posts -->
+    </div><!-- end of  Tcompletion-->
+
+    <div style="padding:18px;height:90px;background-color: rgba(36, 36, 21, .3);">
+        <a href="https://ro.bnuz.edu.cn/ReadingOcean/task/publish?type=ex" class="back">返回</a>
+        <a href="https://ro.bnuz.edu.cn/ReadingOcean/task/printTaskDetail?taskId=c2256792-32f1-4333-9001-2ae6ffbc248b" class="download" id="download">下载</a>
+    </div>
+    <ul class="top">
+        <li class="odd-li">任务名</li>
+        <li class="even-li">今日阅读</li>
+        <li class="odd-li">任务描述</li>
+        <li class="even-li">童话故事|| 你需要完成的任务类型：读后感.</li>
+        <li class="odd-li">开始时间-结束时间</li>
+        <li class="even-li">2019-02-15 12:00 ~ 2019-02-16 12:00</li>
+        <li class="odd-li" style="float:left;">任务学生对象</li>
+        <div class="judging">
+            <!-- 全选全不选 -->
+            <label class="allStu" style="">
+                <input type="checkbox">
+                <span class="chooseAll">全选</span>
+                <span class="dechooseAll" style="display: none;">全不选</span>
+            </label>
+            <!-- 评价等级 -->
+            <label style="display: inline;"><input type="radio" value="5" name="assess"><span>优（加5分）</span></label>
+            <label style="display: inline;"><input type="radio" value="3" name="assess"><span>良（加3分）</span></label>
+            <label style="display: inline;"><input type="radio" value="1" name="assess"><span>中（加1分）</span></label>
+            <button class="judge" style="display: none;">评价</button>
+            <button class="okJudge" id="c2256792-32f1-4333-9001-2ae6ffbc248b" style="display: inline-block;">确定</button>
+            <button class="cancel" style="display: inline-block;">取消</button>
+        </div>
+        <div style="clear:both;"></div>
+        <li class="finishStu">
+
+            <!-- 已完成任务学生列表 -->
+
+            <!-- 未完成任务学生列表 -->
+
+            <p id="0dd0c18d-68aa-4e70-9f0d-02f37859be93">花花(未完成)</p>
+
+
+            <!-- 已完成任务学生列表 -->
+
+            <!-- 未完成任务学生列表 -->
+
+            <p id="1c692739-d79a-4992-9d36-e5eebbf4c031">多拉贡(未完成)</p>
+
+
+            <!-- 已完成任务学生列表 -->
+
+            <!-- 未完成任务学生列表 -->
+
+            <p id="21FF3312-EA1D-9E62-049E-C96984A9DAC0">123(未完成)</p>
+
+
+            <!-- 已完成任务学生列表 -->
+
+            <!-- 未完成任务学生列表 -->
+
+            <p id="4B58728D-5B0E-D059-6B2F-08426D79D96E">SMK(未完成)</p>
+
+
+            <!-- 已完成任务学生列表 -->
+
+            <!-- 未完成任务学生列表 -->
+
+            <p id="50F17A11-02A5-F880-960D-4CF94398D55E">123123(未完成)</p>
+
+
+            <!-- 已完成任务学生列表 -->
+
+            <!-- 未完成任务学生列表 -->
+
+            <p id="6299a1f4-2ed5-4b5c-ac65-d0c18823394a">学生彬(未完成)</p>
+
+
+            <!-- 已完成任务学生列表 -->
+
+            <!-- 未完成任务学生列表 -->
+
+            <p id="95b847ea-c1ef-47fc-81d9-70416e7835c9">一年级(未完成)</p>
+
+
+            <!-- 已完成任务学生列表 -->
+
+            <!-- 未完成任务学生列表 -->
+
+            <p id="9e19215b-7a82-4250-8200-a197ec51c56e">学生薛(未完成)</p>
+
+
+            <!-- 已完成任务学生列表 -->
+
+            <!-- 未完成任务学生列表 -->
+
+            <p id="9ecdb257-cac5-4970-9ad3-5994d487bd0b">学生斌(未完成)</p>
+
+
+            <!-- 已完成任务学生列表 -->
+
+            <!-- 未完成任务学生列表 -->
+
+            <p id="a7252b35-ce97-451e-b2d2-810da15c4ce1">马昀(未完成)</p>
+
+
+            <!-- 已完成任务学生列表 -->
+
+            <!-- 未完成任务学生列表 -->
+
+            <p id="cecb1a01-9973-4863-bf82-8c29eb520cd8">叶俊德(未完成)</p>
+
+
+            <!-- 已完成任务学生列表 -->
+
+            <!-- 未完成任务学生列表 -->
+
+            <p id="dc7a9f22-1a4d-40a4-b4fe-66119037e854">了(未完成)</p>
+
+
+            <!-- 已完成任务学生列表 -->
+
+            <!-- 未完成任务学生列表 -->
+
+            <p id="e9f8cb9f-e495-4ca1-ab15-9e393c24b2fc">李慧婷(未完成)</p>
+
+
+            <!-- 已完成任务学生列表 -->
+
+
+            <label style="color:blue;">
+                <input id="78965433213" style="display: inline-block" class="judgeStudent" type="checkbox">学生甲(已完成，优)</input>
+            </label>
+
+
+
+            <!-- 未完成任务学生列表 -->
+
+
+            <div class="comments" style="margin-top: 10px;">
+                <form class="form-assess" accept-charset="UTF-8">
+                    <span style="background-color:#188bd0;color:white;font-size: 18px;padding:4px;border-radius:10px;margin-bottom:10px;">加分项</span>
+                    <ul><li class="add-li"><label><input type="checkbox" name="integral" value="4"><span>晚上能保证有不少于20分钟、节假日保证不少于1小时的阅读时间</span>。(4分)</label></li><li class="add-li"><label><input type="checkbox" name="integral" value="4"><span>每个月认真读完一本必读书，最少读一本选读书。读得更多的有额外奖励</span>。(4分)</label></li><li class="add-li"><label><input type="checkbox" name="integral" value="4"><span>每天15分钟经典诵读，熟读成诵，读出韵味</span>。(4分)</label></li><li class="add-li"><label><input type="checkbox" name="integral" value="4"><span>班级读书会上，敢于与老师、同学交流自己的读书心得，畅谈自己的阅读收获</span>。(4分)</label></li><li class="add-li"><label><input type="checkbox" name="integral" value="-2"><span>每个月没有读完一本必读书</span>。(-2分)</label></li><li class="add-li"><label><input type="checkbox" name="integral" value="-2"><span>没有与老师、同学交流自己的读书心得</span>。(-2分)</label></li></ul>
+                </form>
+            </div>
+        </li>
+        <li class="odd-li">已评价学生</li>
+        <li class="hasAssess">
+
+            <!-- 已完成评价的学生列表 -->
+
+
+            <!-- 已完成评价的学生列表 -->
+
+
+            <!-- 已完成评价的学生列表 -->
+
+
+            <!-- 已完成评价的学生列表 -->
+
+
+            <!-- 已完成评价的学生列表 -->
+
+
+            <!-- 已完成评价的学生列表 -->
+
+
+            <!-- 已完成评价的学生列表 -->
+
+
+            <!-- 已完成评价的学生列表 -->
+
+
+            <!-- 已完成评价的学生列表 -->
+
+
+            <!-- 已完成评价的学生列表 -->
+
+
+            <!-- 已完成评价的学生列表 -->
+
+
+            <!-- 已完成评价的学生列表 -->
+
+
+            <!-- 已完成评价的学生列表 -->
+
+
+            <!-- 已完成评价的学生列表 -->
+
+
+
+        </li>
+        <li class="odd-li">任务书籍列表</li>
+
+    </ul>
+    <ul class="showBook">
+        <!-- 已发布任务选择的书籍列表 -->
+
+        <a href="https://ro.bnuz.edu.cn/ReadingOcean/forum/detail?topicId=166e5352-4b99-4cb2-82f2-999311093f1e&amp;bookId=aa0a809f-5df4-4a20-8f7f-75abaeaf0efb" target="_blank">
+            <li id="aa0a809f-5df4-4a20-8f7f-75abaeaf0efb">
+                <img src="http://ro.bnuz.edu.cn/book/category_tonghua/aa0a809f-5df4-4a20-8f7f-75abaeaf0efb.png">
+                <h3>格林童话选</h3>
+            </li>
+        </a>
+
+    </ul>
+</div><!-- end of main -->
+<script src="/js/mission/task.js" th:src="@{/js/mission/task.js}"></script>
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"/>
+
+</body>
+</html>

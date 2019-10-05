@@ -1,0 +1,56 @@
+.x-pager {
+    width: 960px;
+    margin:15px auto;
+    text-align: center;
+}
+
+.x-pager a {
+    font-size: 11px;
+    padding: 6px 15px;
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s;
+    /* Safari 和 Chrome */
+    -o-transition: all .5s;
+    transition: all .5s;
+    text-decoration: none;
+    color: #5591eb;
+    border: 2px solid #0881cf;
+    border-radius: 2px;
+    background-color: #fff;
+}
+
+.x-first, .x-previous {
+    margin-right: 3px;
+}
+
+.x-last, .x-next {
+    margin-left: 3px;
+}
+
+.x-pager a:hover {
+    color: #fff;
+    background-color: #0881cf;
+}
+
+.x-pager-inform {
+    display: none;
+    padding: 2px;
+    color: #5591eb;
+}
+
+a.x-disable, a.x-disable:hover {
+    border-color: #C9C8C8;
+    color: #808080;
+    background-color: #C9C8C8;
+}
+a.little-page{
+    border-radius:0;
+    border:1px solid #5591eb;
+}
+a.little-page+a.little-page{
+    border-left: none;
+}
+a.current {
+    color: #fff;
+    background-color: #0881cf;
+}

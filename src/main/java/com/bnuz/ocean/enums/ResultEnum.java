@@ -9,7 +9,8 @@ public enum ResultEnum {
 
     MISSION_INSERT_ERROR(301,"任务插入错误"),
     M_S_INSERT_ERROR(302,"任务学生关系插入错误"),
-    M_B_INSERT_ERROR(303,"任务图书关系插入错误");
+    M_B_INSERT_ERROR(303,"任务图书关系插入错误"),
+    EVALUATE_INSERT_ERROR(304,"评价信息插入错误");
 
     private Integer code;
     private String message;

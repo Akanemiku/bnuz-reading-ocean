@@ -1,15 +1,11 @@
 package com.bnuz.ocean.controller;
 
 import com.bnuz.ocean.DTO.MissionDTO;
-import com.bnuz.ocean.VO.MissionVO;
 import com.bnuz.ocean.VO.ResultVO;
 import com.bnuz.ocean.converter.MissionDTO2Mission;
 import com.bnuz.ocean.entity.*;
-import com.bnuz.ocean.entity.id.MissionBookId;
-import com.bnuz.ocean.entity.id.MissionStudentId;
 import com.bnuz.ocean.enums.ResultEnum;
 import com.bnuz.ocean.exception.OceanException;
-import com.bnuz.ocean.repository.StudentRepository;
 import com.bnuz.ocean.service.*;
 import com.bnuz.ocean.utils.ResultVOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
 import java.util.List;
 
 @Controller
@@ -134,4 +129,8 @@ public class MissionController {
         return "common/success";
     }
 
+    @GetMapping("/detail")
+    public String detail(){
+        return "mission/detail";
+    }
 }
