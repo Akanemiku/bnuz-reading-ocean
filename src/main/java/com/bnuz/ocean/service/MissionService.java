@@ -15,4 +15,8 @@ public interface MissionService {
     Mission findAllByMissionId(Integer missionId);
 
     void deleteByMissionId(Integer missionId);
+
+    List<String> fetchStudents(Integer missionId);
+
+    List<String> fetchBooks(Integer missionId);
 }

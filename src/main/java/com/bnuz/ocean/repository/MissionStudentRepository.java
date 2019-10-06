@@ -19,4 +19,7 @@ public interface MissionStudentRepository extends JpaRepository<MissionStudent, 
     @Modifying
     @Query(nativeQuery = true, value = "delete from r_mission_student where mission_id = ?1")
     void deleteByMissionId(Integer missionId);
+
+    @Query(nativeQuery = true, value = "select student_id from r_mission_student where mission_id=?1")
+    List<Integer> findAllStudentIdByMissionId(Integer missionId);
 }

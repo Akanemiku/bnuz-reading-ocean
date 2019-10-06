@@ -36,4 +36,9 @@ public class MissionStudentServiceImpl implements MissionStudentService {
     public List<MissionStudent> findAll(Integer missionId) {
         return missionStudentRepository.findAll(missionId);
     }
+
+    @Override
+    public List<Integer> findAllStudentIdByMissionId(Integer missionId) {
+        return missionStudentRepository.findAllStudentIdByMissionId(missionId);
+    }
 }

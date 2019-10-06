@@ -11,5 +11,8 @@ import java.util.List;
 public interface BookRepository extends JpaRepository<Book,Integer> {
     @Query(nativeQuery = true,value = "select * from t_book_info")
     List<Book> findAll();
+
+    @Query(nativeQuery = true,value = "select book_name from t_book_info where book_id=?1")
+    String findBookNameByBookId(Integer bookId);
 }
 

@@ -12,4 +12,6 @@ public interface MissionStudentService {
     void deleteByMissionId(Integer missionId);
 
     List<MissionStudent> findAll(Integer missionId);
+
+    List<Integer> findAllStudentIdByMissionId(Integer missionId);
 }

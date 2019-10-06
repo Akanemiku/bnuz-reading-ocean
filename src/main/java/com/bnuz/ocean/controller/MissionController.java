@@ -8,6 +8,7 @@ import com.bnuz.ocean.enums.ResultEnum;
 import com.bnuz.ocean.exception.OceanException;
 import com.bnuz.ocean.service.*;
 import com.bnuz.ocean.utils.ResultVOUtil;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,7 +36,7 @@ public class MissionController {
 
     @GetMapping("/list")
     public String list(@RequestParam(value = "teacherNo", defaultValue = "233") String teacherNo,
-                       @PageableDefault(size = 2) Pageable pageable, Model model) {
+                       @PageableDefault(size = 5) Pageable pageable, Model model) {
 
         Page<Mission> missionPage = missionService.findList(teacherNo, pageable);
         model.addAttribute("missionPage", missionPage);

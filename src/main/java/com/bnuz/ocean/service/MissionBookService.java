@@ -13,4 +13,6 @@ public interface MissionBookService {
 
     void deleteByMissionId(Integer missionId);
 
+    List<Integer> findAllBookIdByMissionId(Integer missionId);
+
 }

@@ -36,4 +36,9 @@ public class MissionBookServiceImpl implements MissionBookService {
     public void deleteByMissionId(Integer missionId) {
         missionBookRepository.deleteByMissionId(missionId);
     }
+
+    @Override
+    public List<Integer> findAllBookIdByMissionId(Integer missionId) {
+        return missionBookRepository.findAllBookIdByMissionId(missionId);
+    }
 }

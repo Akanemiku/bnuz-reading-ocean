@@ -11,5 +11,4 @@ import java.util.List;
 public interface StudentRepository extends JpaRepository<Student,Integer> {
     @Query(nativeQuery = true,value = "select * from t_student_info")
     List<Student> findAll();
-
 }
