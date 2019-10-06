@@ -1,6 +1,7 @@
 package com.bnuz.ocean.service.impl;
 
 import com.bnuz.ocean.DTO.EvaluateDTO;
+import com.bnuz.ocean.entity.AssessInfo;
 import com.bnuz.ocean.entity.Evaluate;
 import com.bnuz.ocean.entity.id.EvaluateId;
 import com.bnuz.ocean.repository.EvaluateRepository;

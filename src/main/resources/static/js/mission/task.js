@@ -1548,7 +1548,8 @@ function showAssess() {
         assInput.parent('label').show();
         $.ajax({
             type: 'GET',
-            url: path + "/sys/query",
+            // url: path + "/sys/query",
+            url: "/assess/info",
             data: {
                 'type': 'teacher_add_type'
             },
@@ -1569,7 +1570,8 @@ function showAssess() {
         //获取加分项
         $.ajax({
             type: 'GET',
-            url: path + '/sys/query',
+            // url: path + '/sys/query',
+            url: '/assess/info',
             data: {
                 'type': 'teacher_addplus_type'
             },

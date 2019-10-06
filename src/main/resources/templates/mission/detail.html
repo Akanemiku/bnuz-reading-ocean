@@ -526,18 +526,18 @@
         <li class="odd-li" style="float:left;">任务学生对象</li>
         <div class="judging">
             <!-- 全选全不选 -->
-            <label class="allStu" style="">
+            <label class="allStu" style="display: none">
                 <input type="checkbox">
                 <span class="chooseAll">全选</span>
                 <span class="dechooseAll" style="display: none;">全不选</span>
             </label>
             <!-- 评价等级 -->
-            <label style="display: inline;"><input type="radio" value="5" name="assess"><span>优（加5分）</span></label>
-            <label style="display: inline;"><input type="radio" value="3" name="assess"><span>良（加3分）</span></label>
-            <label style="display: inline;"><input type="radio" value="1" name="assess"><span>中（加1分）</span></label>
-            <button class="judge" style="display: none;">评价</button>
-            <button class="okJudge" id="c2256792-32f1-4333-9001-2ae6ffbc248b" style="display: inline-block;">确定</button>
-            <button class="cancel" style="display: inline-block;">取消</button>
+            <label style="display: none;"><input type="radio" value="5" name="assess"><span>优（加5分）</span></label>
+            <label style="display: none;"><input type="radio" value="3" name="assess"><span>良（加3分）</span></label>
+            <label style="display: none;"><input type="radio" value="1" name="assess"><span>中（加1分）</span></label>
+            <button class="judge" style="display: inline-block;">评价</button>
+            <button class="okJudge" id="c2256792-32f1-4333-9001-2ae6ffbc248b" style="display: none;">确定</button>
+            <button class="cancel" style="display: none;">取消</button>
         </div>
         <div style="clear:both;"></div>
         <li class="finishStu">
@@ -637,7 +637,7 @@
 
 
             <label style="color:blue;">
-                <input id="78965433213" style="display: inline-block" class="judgeStudent" type="checkbox">学生甲(已完成，优)</input>
+                <input id="78965433213"  class="judgeStudent" type="checkbox">学生甲(已完成，优)</input>
             </label>
 
 
