@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>修改任务</title>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.11/css/bootstrap-select.min.css"
+          rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/flatpickr.css}">
+    <script type="text/javascript" th:src="@{/js/flatpickr.min.js}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#pick1').flatpickr();
+            $('#pick2').flatpickr();
+        });
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-default navbar-static-top" th:include="common/nav::common-nav"></nav>
+
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+
+            <br/>
+
+            <div>
+                <label>任务题目</label>
+                <p th:if="${mission!=null}" th:text="${mission.getMissionTitle()}"></p>
+                <p th:if="${mission==null}"></p>
+            </div>
+            <hr>
+
+            <div>
+                <label>任务类型</label>
+                <!--one-->
+                <p th:if="${mission.getMissionCate()==1}" th:text="朗读"></p>
+                <p th:if="${mission.getMissionCate()==2}" th:text="读后感"></p>
+                <p th:if="${mission.getMissionCate()==3}" th:text="答题"></p>
+                <p th:if="${mission.getMissionCate()==4}" th:text="思维导图"></p>
+                <p th:if="${mission.getMissionCate()==5}" th:text="插画"></p>
+                <p th:if="${mission.getMissionCate()==6}" th:text="笔记"></p>
+                <p th:if="${mission.getMissionCate()==7}" th:text="短评"></p>
+                <p th:if="${mission.getMissionCate()==8}" th:text="背诵"></p>
+                <p th:if="${mission==null}"></p>
+            </div>
+            <hr>
+
+            <div>
+                <label>任务描述</label>
+                <p th:if="${mission!=null}" th:text="${mission.getMissionDesc()}"></p>
+                <p th:if="${mission==null}"></p>
+            </div>
+            <hr>
+
+            <div>
+                <label>任务对象</label>
+                <table>
+                    <tr th:each="studentName : ${studentNameList}">
+                        <td th:text="${studentName}"/>
+                    </tr>
+                </table>
+            </div>
+            <hr>
+
+            <div>
+                <label>阅读书籍</label>
+                <table>
+                    <tr th:each="bookName : ${bookNameList}">
+                        <td th:text="${bookName}"/>
+                    </tr>
+                </table>
+            </div>
+            <hr>
+
+            <div>
+                <label>开始时间</label>
+                <p th:if="${mission!=null}" th:text="${mission.getBeginTime()}"></p>
+                <p th:if="${mission==null}"></p>
+            </div>
+            <hr>
+
+
+            <div>
+                <label>结束时间</label>
+                <p th:if="${mission!=null}" th:text="${mission.getEndTime()}"></p>
+                <p th:if="${mission==null}"></p>
+            </div>
+            <hr>
+
+            <a href="/mission/list">Back to List</a>
+            <br/>
+            <br/>
+            <br/>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

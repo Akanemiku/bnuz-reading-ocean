@@ -7,8 +7,11 @@ import com.bnuz.ocean.entity.*;
 import com.bnuz.ocean.enums.ResultEnum;
 import com.bnuz.ocean.exception.OceanException;
 import com.bnuz.ocean.service.*;
+
 import com.bnuz.ocean.utils.ResultVOUtil;
-import com.sun.org.apache.xpath.internal.operations.Mod;
+//import com.sun.org.apache.xpath.internal.operations.Mod;
+//import com.sun.org.apache.xpath.internal.operations.Mod;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -133,5 +137,40 @@ public class MissionController {
     @GetMapping("/detail")
     public String detail(){
         return "mission/detail";
+    }
+
+    @GetMapping("/content")
+    public String content(@RequestParam(value = "teacherNo", defaultValue = "233") Integer teacherNo,
+                          @RequestParam(value = "missionId", required = false) Integer missionId,
+                          Model model) {
+        List<Student> studentList = studentService.findAll();
+        List<Book> bookList = bookService.findAll();
+
+        List<Integer> missionBookIntegerList = missionBookService.findAllBookIdByMissionId(missionId);
+        List<String> bookNameList = new ArrayList<String>();;
+        for (Integer missionBookInteger : missionBookIntegerList) {
+            bookNameList.add(bookService.findBookNameByBookId(missionBookInteger));
+        }
+        List<Integer> missionStudentIntegerList = missionStudentService.findAllStudentIdByMissionId(missionId);
+        List<String>studentNameList = new ArrayList<String>();;
+        for (Integer missionStudentInteger : missionStudentIntegerList) {
+            studentNameList.add(studentService.findStudentNameByStudentId(missionStudentInteger));
+        }
+
+        model.addAttribute("studentList", studentList);
+        model.addAttribute("bookList", bookList);
+        model.addAttribute("teacherNo", teacherNo);
+
+        model.addAttribute("bookNameList", bookNameList);
+        model.addAttribute("studentNameList", studentNameList);
+
+        if (missionId != null) {
+            Mission mission = missionService.findAllByMissionId(missionId);
+            model.addAttribute("mission", mission);
+        } else {
+            model.addAttribute("mission", null);
+        }
+
+        return "mission/content";
     }
 }

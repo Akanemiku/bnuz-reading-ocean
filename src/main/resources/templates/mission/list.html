@@ -58,7 +58,7 @@
                     <td th:text="${mission.getBeginTime()}"></td>
                     <td th:text="${mission.getEndTime()}"></td>
                     <td>
-                        查看详情
+                        <a th:href="@{/mission/content(teacherId=${teacherNo},missionId=${mission.getMissionId()})}">详情</a>
                     </td>
                     <td>
                         <a th:href="@{/mission/index(teacherId=${teacherNo},missionId=${mission.getMissionId()})}">编辑</a>

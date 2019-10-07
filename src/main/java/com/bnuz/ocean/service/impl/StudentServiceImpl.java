@@ -19,4 +19,8 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.findAll();
     }
 
+    @Override
+    public String findStudentNameByStudentId(Integer studentId){
+        return studentRepository.findStudentNameByStudentId(studentId);
+    }
 }

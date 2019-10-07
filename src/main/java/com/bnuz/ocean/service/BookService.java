@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface BookService {
     List<Book> findAll();
+
+    String findBookNameByBookId(Integer bookId);
 }
