@@ -1,7 +1,9 @@
 package com.bnuz.ocean.controller;
 
 import com.bnuz.ocean.DTO.MissionDTO;
+import com.bnuz.ocean.VO.AssessStudentVO;
 import com.bnuz.ocean.VO.ResultVO;
+import com.bnuz.ocean.VO.StudentVO;
 import com.bnuz.ocean.converter.MissionDTO2Mission;
 import com.bnuz.ocean.entity.*;
 import com.bnuz.ocean.enums.ResultEnum;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/mission")
@@ -29,14 +32,21 @@ public class MissionController {
 
     @Autowired
     private MissionService missionService;
+
     @Autowired
     private StudentService studentService;
+
     @Autowired
     private BookService bookService;
+
     @Autowired
     private MissionStudentService missionStudentService;
+
     @Autowired
     private MissionBookService missionBookService;
+
+    @Autowired
+    private EvaluateService evaluateService;
 
     @GetMapping("/list")
     public String list(@RequestParam(value = "teacherNo", defaultValue = "233") String teacherNo,
@@ -135,42 +145,16 @@ public class MissionController {
     }
 
     @GetMapping("/detail")
-    public String detail(){
+    public String detail(@RequestParam(value = "missionId") String missionId, Map<String,Object> map){
+        Mission mission = missionService.findAllByMissionId(Integer.valueOf(missionId));
+        List<StudentVO> allStudentVOSByMissionIdWhenFinishTaskAndNotAssess = studentService.findAllStudentVOSByMissionIdWhenFinishTaskAndNotAssess(missionId);
+        List<StudentVO> allStudentVOSByMissionIdWhenNotFinishTask = studentService.findAllStudentVOSByMissionIdWhenNotFinishTask(missionId);
+        List<AssessStudentVO> assessStudentVOS = evaluateService.findAllAssessStudentsByMissionId(missionId);
+        map.put("missionId",missionId);
+        map.put("mission",mission);
+        map.put("finishedTaskStudent",allStudentVOSByMissionIdWhenFinishTaskAndNotAssess);
+        map.put("notFinishedTaskStudent",allStudentVOSByMissionIdWhenNotFinishTask);
+        map.put("isAssessedStudent",assessStudentVOS);
         return "mission/detail";
-    }
-
-    @GetMapping("/content")
-    public String content(@RequestParam(value = "teacherNo", defaultValue = "233") Integer teacherNo,
-                          @RequestParam(value = "missionId", required = false) Integer missionId,
-                          Model model) {
-        List<Student> studentList = studentService.findAll();
-        List<Book> bookList = bookService.findAll();
-
-        List<Integer> missionBookIntegerList = missionBookService.findAllBookIdByMissionId(missionId);
-        List<String> bookNameList = new ArrayList<String>();;
-        for (Integer missionBookInteger : missionBookIntegerList) {
-            bookNameList.add(bookService.findBookNameByBookId(missionBookInteger));
-        }
-        List<Integer> missionStudentIntegerList = missionStudentService.findAllStudentIdByMissionId(missionId);
-        List<String>studentNameList = new ArrayList<String>();;
-        for (Integer missionStudentInteger : missionStudentIntegerList) {
-            studentNameList.add(studentService.findStudentNameByStudentId(missionStudentInteger));
-        }
-
-        model.addAttribute("studentList", studentList);
-        model.addAttribute("bookList", bookList);
-        model.addAttribute("teacherNo", teacherNo);
-
-        model.addAttribute("bookNameList", bookNameList);
-        model.addAttribute("studentNameList", studentNameList);
-
-        if (missionId != null) {
-            Mission mission = missionService.findAllByMissionId(missionId);
-            model.addAttribute("mission", mission);
-        } else {
-            model.addAttribute("mission", null);
-        }
-
-        return "mission/content";
     }
 }

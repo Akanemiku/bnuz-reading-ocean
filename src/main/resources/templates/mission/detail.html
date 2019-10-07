@@ -513,16 +513,16 @@
     </div><!-- end of  Tcompletion-->
 
     <div style="padding:18px;height:90px;background-color: rgba(36, 36, 21, .3);">
-        <a href="https://ro.bnuz.edu.cn/ReadingOcean/task/publish?type=ex" class="back">返回</a>
+        <a th:href="@{/mission/list(teacherId=${mission.getTeacherNo()+'&page=1&size=5'})}" class="back">返回</a>
         <a href="https://ro.bnuz.edu.cn/ReadingOcean/task/printTaskDetail?taskId=c2256792-32f1-4333-9001-2ae6ffbc248b" class="download" id="download">下载</a>
     </div>
     <ul class="top">
         <li class="odd-li">任务名</li>
-        <li class="even-li">今日阅读</li>
+        <li class="even-li" th:text="${mission.missionTitle}"></li>
         <li class="odd-li">任务描述</li>
-        <li class="even-li">童话故事|| 你需要完成的任务类型：读后感.</li>
+        <li class="even-li" th:text="${mission.missionDesc}"></li>
         <li class="odd-li">开始时间-结束时间</li>
-        <li class="even-li">2019-02-15 12:00 ~ 2019-02-16 12:00</li>
+        <li class="even-li" th:text="${#dates.format(mission.beginTime, 'yyyy-MM-dd HH:mm') + ' ~ ' + #dates.format(mission.endTime, 'yyyy-MM-dd HH:mm')}"></li>
         <li class="odd-li" style="float:left;">任务学生对象</li>
         <div class="judging">
             <!-- 全选全不选 -->
@@ -532,123 +532,45 @@
                 <span class="dechooseAll" style="display: none;">全不选</span>
             </label>
             <!-- 评价等级 -->
-            <label style="display: none;"><input type="radio" value="5" name="assess"><span>优（加5分）</span></label>
-            <label style="display: none;"><input type="radio" value="3" name="assess"><span>良（加3分）</span></label>
-            <label style="display: none;"><input type="radio" value="1" name="assess"><span>中（加1分）</span></label>
+            <label style="display: none;"><input type="radio" value="" name="assess"><span></span></label>
+            <label style="display: none;"><input type="radio" value="" name="assess"><span></span></label>
+            <label style="display: none;"><input type="radio" value="" name="assess"><span></span></label>
             <button class="judge" style="display: inline-block;">评价</button>
-            <button class="okJudge" id="c2256792-32f1-4333-9001-2ae6ffbc248b" style="display: none;">确定</button>
+            <button class="okJudge" th:id="${missionId}" style="display: none;">确定</button>
             <button class="cancel" style="display: none;">取消</button>
         </div>
         <div style="clear:both;"></div>
         <li class="finishStu">
 
-            <!-- 已完成任务学生列表 -->
 
             <!-- 未完成任务学生列表 -->
 
-            <p id="0dd0c18d-68aa-4e70-9f0d-02f37859be93">花花(未完成)</p>
+            <p  th:each="notFinishedStudent:${notFinishedTaskStudent}" th:id="${notFinishedStudent.studentId}" th:text="${notFinishedStudent.studentName+'(未完成)'}"></p>
 
 
-            <!-- 已完成任务学生列表 -->
-
-            <!-- 未完成任务学生列表 -->
-
-            <p id="1c692739-d79a-4992-9d36-e5eebbf4c031">多拉贡(未完成)</p>
-
-
-            <!-- 已完成任务学生列表 -->
-
-            <!-- 未完成任务学生列表 -->
-
-            <p id="21FF3312-EA1D-9E62-049E-C96984A9DAC0">123(未完成)</p>
-
-
-            <!-- 已完成任务学生列表 -->
-
-            <!-- 未完成任务学生列表 -->
-
-            <p id="4B58728D-5B0E-D059-6B2F-08426D79D96E">SMK(未完成)</p>
-
-
-            <!-- 已完成任务学生列表 -->
-
-            <!-- 未完成任务学生列表 -->
-
-            <p id="50F17A11-02A5-F880-960D-4CF94398D55E">123123(未完成)</p>
-
-
-            <!-- 已完成任务学生列表 -->
-
-            <!-- 未完成任务学生列表 -->
-
-            <p id="6299a1f4-2ed5-4b5c-ac65-d0c18823394a">学生彬(未完成)</p>
-
-
-            <!-- 已完成任务学生列表 -->
-
-            <!-- 未完成任务学生列表 -->
-
-            <p id="95b847ea-c1ef-47fc-81d9-70416e7835c9">一年级(未完成)</p>
-
-
-            <!-- 已完成任务学生列表 -->
-
-            <!-- 未完成任务学生列表 -->
-
-            <p id="9e19215b-7a82-4250-8200-a197ec51c56e">学生薛(未完成)</p>
-
-
-            <!-- 已完成任务学生列表 -->
-
-            <!-- 未完成任务学生列表 -->
-
-            <p id="9ecdb257-cac5-4970-9ad3-5994d487bd0b">学生斌(未完成)</p>
-
-
-            <!-- 已完成任务学生列表 -->
-
-            <!-- 未完成任务学生列表 -->
-
-            <p id="a7252b35-ce97-451e-b2d2-810da15c4ce1">马昀(未完成)</p>
-
-
-            <!-- 已完成任务学生列表 -->
-
-            <!-- 未完成任务学生列表 -->
-
-            <p id="cecb1a01-9973-4863-bf82-8c29eb520cd8">叶俊德(未完成)</p>
-
-
-            <!-- 已完成任务学生列表 -->
-
-            <!-- 未完成任务学生列表 -->
-
-            <p id="dc7a9f22-1a4d-40a4-b4fe-66119037e854">了(未完成)</p>
-
-
-            <!-- 已完成任务学生列表 -->
-
-            <!-- 未完成任务学生列表 -->
-
-            <p id="e9f8cb9f-e495-4ca1-ab15-9e393c24b2fc">李慧婷(未完成)</p>
 
 
             <!-- 已完成任务学生列表 -->
 
 
-            <label style="color:blue;">
-                <input id="78965433213"  class="judgeStudent" type="checkbox">学生甲(已完成，优)</input>
+            <label style="color:green;" th:each="finishedStudent:${finishedTaskStudent}">
+                <input th:id="${finishedStudent.studentId}"  class="judgeStudent" type="checkbox">
+                <a th:id="${finishedStudent.studentId}" th:text="${finishedStudent.studentName+'(已完成)'}" class="Task_completion" style="text-decoration: none" href="#"></a>
             </label>
 
 
 
-            <!-- 未完成任务学生列表 -->
+
+            <!-- 完成任务学生并已评价列表 -->
+            <label style="color:blue;" th:each="assessedStudent:${isAssessedStudent}">
+                <a th:id="${assessedStudent.studentId}" style="text-decoration:none" href="#" class="Task_completion" th:text="${assessedStudent.studentName+'(已完成，'+assessedStudent.assess+')'}"></a>
+            </label>
 
 
-            <div class="comments" style="margin-top: 10px;">
+            <div class="comments" style="margin-top: 10px;display: none">
                 <form class="form-assess" accept-charset="UTF-8">
                     <span style="background-color:#188bd0;color:white;font-size: 18px;padding:4px;border-radius:10px;margin-bottom:10px;">加分项</span>
-                    <ul><li class="add-li"><label><input type="checkbox" name="integral" value="4"><span>晚上能保证有不少于20分钟、节假日保证不少于1小时的阅读时间</span>。(4分)</label></li><li class="add-li"><label><input type="checkbox" name="integral" value="4"><span>每个月认真读完一本必读书，最少读一本选读书。读得更多的有额外奖励</span>。(4分)</label></li><li class="add-li"><label><input type="checkbox" name="integral" value="4"><span>每天15分钟经典诵读，熟读成诵，读出韵味</span>。(4分)</label></li><li class="add-li"><label><input type="checkbox" name="integral" value="4"><span>班级读书会上，敢于与老师、同学交流自己的读书心得，畅谈自己的阅读收获</span>。(4分)</label></li><li class="add-li"><label><input type="checkbox" name="integral" value="-2"><span>每个月没有读完一本必读书</span>。(-2分)</label></li><li class="add-li"><label><input type="checkbox" name="integral" value="-2"><span>没有与老师、同学交流自己的读书心得</span>。(-2分)</label></li></ul>
+                    <ul></ul>
                 </form>
             </div>
         </li>
@@ -656,47 +578,7 @@
         <li class="hasAssess">
 
             <!-- 已完成评价的学生列表 -->
-
-
-            <!-- 已完成评价的学生列表 -->
-
-
-            <!-- 已完成评价的学生列表 -->
-
-
-            <!-- 已完成评价的学生列表 -->
-
-
-            <!-- 已完成评价的学生列表 -->
-
-
-            <!-- 已完成评价的学生列表 -->
-
-
-            <!-- 已完成评价的学生列表 -->
-
-
-            <!-- 已完成评价的学生列表 -->
-
-
-            <!-- 已完成评价的学生列表 -->
-
-
-            <!-- 已完成评价的学生列表 -->
-
-
-            <!-- 已完成评价的学生列表 -->
-
-
-            <!-- 已完成评价的学生列表 -->
-
-
-            <!-- 已完成评价的学生列表 -->
-
-
-            <!-- 已完成评价的学生列表 -->
-
-
+            <p th:each="assessedStudent:${isAssessedStudent}" th:id="${assessedStudent.studentId}" th:text="${assessedStudent.studentName+'('+assessedStudent.assess+')'}"></p>
 
         </li>
         <li class="odd-li">任务书籍列表</li>

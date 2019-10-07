@@ -23,8 +23,6 @@ public class EvaluateController {
     @PostMapping("/assess")
     @ResponseBody
     public ResultVO assess(@RequestBody EvaluateDTO evaluateDTO){
-
-        System.out.println(evaluateDTO);
         if (evaluateDTO!=null){
             evaluateService.save(evaluateDTO);
             return ResultVOUtil.success();

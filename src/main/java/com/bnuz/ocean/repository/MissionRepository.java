@@ -21,5 +21,4 @@ public interface MissionRepository extends JpaRepository<Mission,Integer> {
 //    void delete(Integer missionId);
 
     void deleteByMissionId(Integer missionId);
-
 }

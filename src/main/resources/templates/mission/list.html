@@ -55,10 +55,10 @@
                 <tr th:each="mission,missionStat:${missionPage}">
                     <td th:text="${mission.getMissionTitle()}"></td>
                     <td th:text="${mission.getMissionDesc()}"></td>
-                    <td th:text="${mission.getBeginTime()}"></td>
-                    <td th:text="${mission.getEndTime()}"></td>
+                    <td th:text="${#dates.format(mission.getBeginTime(), 'yyyy-MM-dd HH:mm')}"></td>
+                    <td th:text="${#dates.format(mission.getEndTime(), 'yyyy-MM-dd HH:mm')}"></td>
                     <td>
-                        <a th:href="@{/mission/content(teacherId=${teacherNo},missionId=${mission.getMissionId()})}">详情</a>
+                        <a th:href="@{/mission/detail(missionId=${mission.getMissionId()})}">查看详情</a>
                     </td>
                     <td>
                         <a th:href="@{/mission/index(teacherId=${teacherNo},missionId=${mission.getMissionId()})}">编辑</a>
