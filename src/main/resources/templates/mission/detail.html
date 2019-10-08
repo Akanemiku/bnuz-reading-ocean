@@ -514,7 +514,7 @@
 
     <div style="padding:18px;height:90px;background-color: rgba(36, 36, 21, .3);">
         <a th:href="@{/mission/list(teacherId=${mission.getTeacherNo()+'&page=1&size=5'})}" class="back">返回</a>
-        <a href="https://ro.bnuz.edu.cn/ReadingOcean/task/printTaskDetail?taskId=c2256792-32f1-4333-9001-2ae6ffbc248b" class="download" id="download">下载</a>
+        <a href="" th:href="@{'/excel/export/'+${mission.missionId}}" class="download" id="download">下载</a>
     </div>
     <ul class="top">
         <li class="odd-li">任务名</li>
