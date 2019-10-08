@@ -56,15 +56,11 @@ public class MissionServiceImpl implements MissionService {
 
     @Override
     public List<String> fetchStudents(Integer missionId) {
-
-
-
         return null;
     }
 
     @Override
     public List<String> fetchBooks(Integer missionId) {
-
         List<Integer> booksId = missionBookRepository.findAllBookIdByMissionId(missionId);
         List<String> bookNameList = new ArrayList<>();
         for (Integer integer : booksId) {
