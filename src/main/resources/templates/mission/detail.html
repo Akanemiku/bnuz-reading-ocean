@@ -587,10 +587,10 @@
     <ul class="showBook">
         <!-- 已发布任务选择的书籍列表 -->
 
-        <a href="https://ro.bnuz.edu.cn/ReadingOcean/forum/detail?topicId=166e5352-4b99-4cb2-82f2-999311093f1e&amp;bookId=aa0a809f-5df4-4a20-8f7f-75abaeaf0efb" target="_blank">
-            <li id="aa0a809f-5df4-4a20-8f7f-75abaeaf0efb">
-                <img src="http://ro.bnuz.edu.cn/book/category_tonghua/aa0a809f-5df4-4a20-8f7f-75abaeaf0efb.png">
-                <h3>格林童话选</h3>
+        <a th:each="books:${bookList}" href="#" target="_blank">
+            <li th:id="${books.bookId}">
+                <img>
+                <h3 th:text="${books.bookName}"></h3>
             </li>
         </a>
 

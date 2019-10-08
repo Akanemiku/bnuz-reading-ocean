@@ -147,6 +147,7 @@ public class MissionController {
     @GetMapping("/detail")
     public String detail(@RequestParam(value = "missionId") String missionId, Map<String,Object> map){
         Mission mission = missionService.findAllByMissionId(Integer.valueOf(missionId));
+        List<Book> bookList = bookService.findBooksByMissionId(missionId);
         List<StudentVO> allStudentVOSByMissionIdWhenFinishTaskAndNotAssess = studentService.findAllStudentVOSByMissionIdWhenFinishTaskAndNotAssess(missionId);
         List<StudentVO> allStudentVOSByMissionIdWhenNotFinishTask = studentService.findAllStudentVOSByMissionIdWhenNotFinishTask(missionId);
         List<AssessStudentVO> assessStudentVOS = evaluateService.findAllAssessStudentsByMissionId(missionId);
@@ -155,6 +156,7 @@ public class MissionController {
         map.put("finishedTaskStudent",allStudentVOSByMissionIdWhenFinishTaskAndNotAssess);
         map.put("notFinishedTaskStudent",allStudentVOSByMissionIdWhenNotFinishTask);
         map.put("isAssessedStudent",assessStudentVOS);
+        map.put("bookList",bookList);
         return "mission/detail";
     }
 }
