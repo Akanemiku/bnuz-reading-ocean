@@ -16,11 +16,11 @@ import static org.junit.Assert.*;
 public class AssessInfoRepositoryTest {
 
     @Autowired
-    AssessInfoRepository assessInfoRepository;
+    private AssessInfoRepository assessInfoRepository;
 
     @Test
     public void getAssessInfosByType() {
-        List<AssessInfo> infos = assessInfoRepository.getAssessInfosByType("teacher_addplus_type");
-        System.out.println(infos);
+        List<AssessInfo> assessInfoList = assessInfoRepository.getAssessInfosByType("teacher_add_type");
+        assertNotNull(assessInfoList);
     }
 }

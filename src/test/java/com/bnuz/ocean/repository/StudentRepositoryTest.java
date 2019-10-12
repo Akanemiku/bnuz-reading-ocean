@@ -42,4 +42,7 @@ public class StudentRepositoryTest {
         assertNotEquals(0,students.size());
     }
 
+    @Test
+    public void findAll() {
+    }
 }

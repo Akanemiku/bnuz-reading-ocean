@@ -1,6 +1,6 @@
-package com.bnuz.ocean.repository;
+package com.bnuz.ocean.service.impl;
 
-import com.bnuz.ocean.entity.Evaluate;
+import com.bnuz.ocean.entity.AssessInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,18 +13,14 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class EvaluateRepositoryTest {
+public class AssessInfoServiceImplTest {
 
     @Autowired
-    EvaluateRepository evaluateRepository;
+    private AssessInfoServiceImpl assessInfoServiceImpl;
 
     @Test
-    public void findAllByMissionId() {
-        List<Evaluate> evaluateList = evaluateRepository.findAllByMissionId("19");
-        assertNotNull(evaluateList);
-    }
-
-    @Test
-    public void insert() {
+    public void getAssessInfo() {
+        List<AssessInfo> assessInfoList = assessInfoServiceImpl.getAssessInfo("teacher_add_type");
+        assertNotNull(assessInfoList);
     }
 }

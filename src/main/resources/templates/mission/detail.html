@@ -312,155 +312,24 @@
 
     <!-- 头部导航 -->
     <ul class="common-header-nav">
-        <li><a class="index" href="https://ro.bnuz.edu.cn/ReadingOcean/user/index">首页</a></li>
-
-
-
-        <li><a class="pTask" href="https://ro.bnuz.edu.cn/ReadingOcean/task/publish">发布任务</a></li>
+        <li><a class="pTask" th:href="@{/mission/detail(missionId=${mission.getMissionId()})}">评价学生</a></li>
         <!-- 隐藏字段，判断用户身份，供js获取使用 -->
         <span id="userType" style="display: none;">teacher</span>
 
+        <li><a class="taskList" th:href="@{/mission/list(teacherId=${mission.getTeacherNo()+'&page=1&size=5'})}">任务列表</a></li>
 
-        <li><a class="book" href="https://ro.bnuz.edu.cn/ReadingOcean/book/index?type=suit&amp;suit=1-2&amp;isDone=">书香门第</a></li>
-        <li><a class="forum" href="https://ro.bnuz.edu.cn/ReadingOcean/forum/index">作品社区</a></li>
-
-
+        <li><a class="fileTask" th:href="@{/mission/index(teacherId=${mission.getTeacherNo()},missionId=${mission.missionId})}">发布任务</a></li>
 
 
-        <li><a class="oceanWorld" href="https://ro.bnuz.edu.cn/ReadingOcean/ocean/index?userId=9EF8B96D-FDDF-FADE-B44E-5E772AF31D31">海洋世界</a></li>
+        <li><a class="scoreAnswer" th:href="@{/mission/question(teacherId=${mission.getTeacherNo()+'&page=1'})}">故事新编</a></li>
+
+        <li><a class="quit" th:href="@{/signout}">退出登录</a></li>
 
 
-        <li><a class="tiny" href="https://ro.bnuz.edu.cn/ReadingOcean/tinyread/index?type=tinyread_type_video">名师微课</a></li>
-
-
-
-
-        <li><a class="scoreAnswer" href="https://ro.bnuz.edu.cn/ReadingOcean/scoreAnswer/index?type=queryAsk">故事新编</a></li>
-
-
-
-
-
-        <li><a class="readForum" href="https://ro.bnuz.edu.cn/ReadingOcean/forum/indexTeacher?">教师阅读</a></li>
         <!-- 隐藏字段，判断用户身份，供js获取使用 -->
         <span id="userType" style="display: none;">teacher</span>
 
-
-    </ul>
-    <!-- 头部个人功能栏 -->
-    <ul class="common-header-personal">
-        <li>
-
-
-
-            <img src="http://ro.bnuz.edu.cn:80/user/middle/9EF8B96D-FDDF-FADE-B44E-5E772AF31D31.jpeg">
-
-
-
-            <a href="#">监测</a>
-            <ul>
-                <li><a href="https://ro.bnuz.edu.cn/ReadingOcean/user/info?type=my">个人中心</a></li>
-                <li><a href="https://ro.bnuz.edu.cn/ReadingOcean/reports/index">阅读报告</a></li>
-                <li><a href="#" onclick="updatePwd()">修改密码</a></li>
-                <li><a href="https://ro.bnuz.edu.cn/ReadingOcean/user/logout" id="logout">退出</a></li>
-            </ul></li>
-    </ul>
-
-
-    <!-- 弹出层 -->
-    <div id="common-popup"></div>
-    <!-- 修改资料表单 -->
-    <div id="common-modifyForm">
-        <h2>
-            修改密码 <span class="common-close" type="button" onclick="closeUpdatePwd()">╳</span>
-        </h2>
-        <table>
-            <tbody><tr>
-                <td><label>旧密码</label></td>
-                <td><input type="password" id="common-oldPwd" name="oldPwd" placeholder="输入旧密码"></td>
-            </tr>
-            <tr>
-                <td><label>新密码</label></td>
-                <td><input id="common-newPwd" type="password" name="newPwd" placeholder="输入新密码"></td>
-            </tr>
-            <tr>
-                <td><label>确认新密码</label></td>
-                <td><input id="common-confirmPwd" type="password" name="confirmPwd" placeholder="再次输入新密码"></td>
-            </tr>
-            </tbody></table>
-        <button id="savePwd" style="padding: 10px 20px;" type="button" onclick="submitForm()">保存</button>
-
-    </div>
     <script src="https://lib.sinaapp.com/js/jquery/2.0.2/jquery-2.0.2.min.js"></script>
-    <script type="text/javascript">
-        var path = $('#path').val();
-        $(function() {
-            task();
-        });
-        function updatePwd() {
-            $("#common-popup").show();
-            $("#common-modifyForm").show();
-        }
-
-        /* 关闭修改表单 */
-        function closeUpdatePwd() {
-            $("#common-popup").hide();
-            $("#common-modifyForm").hide();
-
-            $("#common-oldPwd").val("");
-            $("#common-newPwd").val("");
-            $("#common-confirmPwd").val("");
-        }
-
-        //提醒是否要提交表单
-        function submitForm(){
-            var flag = true;
-            //检查校验
-            var oldPwd = $("#common-oldPwd").val();
-            var newPwd = $("#common-newPwd").val();
-            var confirmPwd = $("#common-confirmPwd").val();
-            if(oldPwd=="" || newPwd == "" || confirmPwd == ""){
-                alert("输入框不能空");
-                flag = false;
-            }
-            if(newPwd!=confirmPwd){
-                alert("新密码不一致，请再次确认新密码是否输入正确");
-                flag = false;
-            }
-
-            if(flag){
-                var conf=confirm("确定提交吗？ ");
-                if (conf==true){
-                    $.post("/ReadingOcean/user/pwd/modify",{"oldPwd":oldPwd, "newPwd":newPwd},function(data){
-                        if(data.code==200){
-                            alert("修改密码成功!");
-                            closeUpdatePwd();
-                        }else{
-                            alert("修改密码失败！错误代码："+data.code+"；错误信息："+data.result);
-                        }
-                    });
-                }
-            }
-
-        }
-        //有未完成任务时将对学生进行提示
-        function task(){
-            $.ajax({
-                type : "GET",
-                url :path + "/task/isUnfinish",
-                dataType : "json",
-                success : function(data) {
-                    if(parseInt(data.data)>0)
-                    {$(".cc").append('<span class="c"></span>');
-                        $(".task").attr("href",path+'/task/myTask?type=all');
-                    }
-                },
-                error : function() {
-
-                }
-            });
-        }
-    </script>
 </div>
 
 
