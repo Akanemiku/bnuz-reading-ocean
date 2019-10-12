@@ -31,3 +31,8 @@ spring:
         login-password: 6458
   jpa:
     show-sql: true
+logging:
+  level:
+    org:
+      springframework:
+        web: trace

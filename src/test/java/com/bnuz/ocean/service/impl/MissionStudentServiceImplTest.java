@@ -18,30 +18,23 @@ import static org.junit.Assert.*;
 public class MissionStudentServiceImplTest {
     @Autowired
     private MissionStudentService missionStudentService;
-
-
     @Test
     public void insert() {
-//        missionStudentService.insert(20, 6);
+        missionStudentService.insert(20, 6);
     }
-
     @Test
     public void save() {
-//        missionStudentService.save(new MissionStudent(new MissionStudentId(20, 6)));
+        missionStudentService.save(new MissionStudent(new MissionStudentId(20, 6)));
     }
-
     @Test
     public void deleteByMissionId() {
-//        missionStudentService.deleteByMissionId(20);
+        missionStudentService.deleteByMissionId(20);
     }
-
-
     @Test
     public void findAll() {
         List<MissionStudent> missionStudentList = missionStudentService.findAll(19);
         assertNotEquals(0, missionStudentList.size());
     }
-
     @Test
     public void findAllStudentIdByMissionId() {
         List<Integer> missionStudentList = missionStudentService.findAllStudentIdByMissionId(19);

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>ERROR</title>
@@ -13,7 +13,7 @@
             <div class="alert alert-dismissable alert-danger">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                 <h4>错误!</h4>
-                <strong th:text="${msg}"></strong><a href="/mission/list" class="alert-link">3s后自动跳转</a>
+                <strong>用户名或密码输入错误 </strong><a href="/login" class="alert-link">3s后自动跳转</a>
             </div>
         </div>
     </div>
@@ -21,6 +21,6 @@
 
 </body>
 <script>
-    setTimeout('location.href="/mission/list"', 3000);
+    setTimeout('location.href="/login"', 3000);
 </script>
 </html>

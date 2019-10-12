@@ -19,7 +19,7 @@ public class MissionBookRepositoryTest {
 
     @Test
     public void insert(){
-        repository.insert(1,2);
+//        repository.insert(1,2);
     }
     @Test
     public void findAll(){
@@ -28,7 +28,7 @@ public class MissionBookRepositoryTest {
     }
     @Test
     public void deleteByMissionId(){
-        repository.deleteByMissionId(16);
+//        repository.deleteByMissionId(16);
     }
     @Test
     public void findAllBookIdByMissionId(){
