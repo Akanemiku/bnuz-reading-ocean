@@ -8,6 +8,7 @@ import com.bnuz.ocean.converter.MissionDTO2Mission;
 import com.bnuz.ocean.entity.*;
 import com.bnuz.ocean.enums.ResultEnum;
 import com.bnuz.ocean.exception.OceanException;
+import com.bnuz.ocean.repository.AnswerRepository;
 import com.bnuz.ocean.service.*;
 
 import com.bnuz.ocean.utils.ResultVOUtil;
@@ -26,9 +27,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/mission")
@@ -55,6 +54,9 @@ public class MissionController {
 
     @Autowired
     private QuestionService questionService;
+
+    @Autowired
+    private AnswerService answerService;
 
     @GetMapping("/list")
     public String list(@RequestParam(value = "teacherNo", defaultValue = "233") String teacherNo,
@@ -89,24 +91,6 @@ public class MissionController {
         return "mission/index";
     }
 
-    @GetMapping("/question")
-    public String question(@RequestParam(value = "teacherNo", defaultValue = "233") String teacherNo,
-                           Integer pageNum, Model model){
-
-        if(pageNum == null){
-            pageNum = 1;
-        }
-        Sort sort =  new Sort(Sort.Direction.DESC, "createTime");   // 排序方式，这里是以“questionId”为标准进行降序
-        Pageable pageable = new PageRequest(pageNum-1, 5, sort);    // （当前页， 每页记录数， 排序方式）
-        Page<Question> questionPage = questionService.findAll(pageable);
-        logger.info("Question pageNum: " + pageNum);
-        model.addAttribute("questionPage", questionPage);
-        model.addAttribute("teacherNo", teacherNo);
-        model.addAttribute("pageNum", pageNum);
-
-        return "mission/question";
-    }
-
     @PostMapping("/save")
     public String save(MissionDTO missionDTO, Model model) {
         System.out.println(missionDTO.toString());
@@ -124,7 +108,7 @@ public class MissionController {
             try {
                 List<MissionStudent> missionStudentList = missionStudentService.findAll(mission.getMissionId());
                 for (MissionStudent missionStudent : missionStudentList) {
-                        missionStudentService.deleteByMissionId(missionStudent.getMissionStudentId().getMissionId());
+                    missionStudentService.deleteByMissionId(missionStudent.getMissionStudentId().getMissionId());
                 }
                 for (Integer student : students) {
                     //不能用jpa自带save，会进行持久化导致刚刚删除的同样数据无法再次插入
@@ -163,7 +147,7 @@ public class MissionController {
 
     @GetMapping("/delete")
     public String delete(@RequestParam(value = "missionId", required = true) Integer missionId,
-                         Model model){
+                         Model model) {
         missionService.deleteByMissionId(missionId);
         missionBookService.deleteByMissionId(missionId);
         missionStudentService.deleteByMissionId(missionId);
@@ -171,18 +155,68 @@ public class MissionController {
     }
 
     @GetMapping("/detail")
-    public String detail(@RequestParam(value = "missionId") String missionId, Map<String,Object> map){
+    public String detail(@RequestParam(value = "missionId") String missionId, Map<String, Object> map) {
         Mission mission = missionService.findAllByMissionId(Integer.valueOf(missionId));
         List<Book> bookList = bookService.findBooksByMissionId(missionId);
         List<StudentVO> allStudentVOSByMissionIdWhenFinishTaskAndNotAssess = studentService.findAllStudentVOSByMissionIdWhenFinishTaskAndNotAssess(missionId);
         List<StudentVO> allStudentVOSByMissionIdWhenNotFinishTask = studentService.findAllStudentVOSByMissionIdWhenNotFinishTask(missionId);
         List<AssessStudentVO> assessStudentVOS = evaluateService.findAllAssessStudentsByMissionId(missionId);
-        map.put("missionId",missionId);
-        map.put("mission",mission);
-        map.put("finishedTaskStudent",allStudentVOSByMissionIdWhenFinishTaskAndNotAssess);
-        map.put("notFinishedTaskStudent",allStudentVOSByMissionIdWhenNotFinishTask);
-        map.put("isAssessedStudent",assessStudentVOS);
-        map.put("bookList",bookList);
+        map.put("missionId", missionId);
+        map.put("mission", mission);
+        map.put("finishedTaskStudent", allStudentVOSByMissionIdWhenFinishTaskAndNotAssess);
+        map.put("notFinishedTaskStudent", allStudentVOSByMissionIdWhenNotFinishTask);
+        map.put("isAssessedStudent", assessStudentVOS);
+        map.put("bookList", bookList);
         return "mission/detail";
     }
+
+    @GetMapping("/question")
+    public String question(@RequestParam(value = "teacherNo", defaultValue = "233") String teacherNo,
+                           Integer pageNum, Model model) {
+
+        if (pageNum == null) {
+            pageNum = 1;
+        }
+        Sort sort = new Sort(Sort.Direction.DESC, "createTime");   // 排序方式，这里是以“questionId”为标准进行降序
+        Pageable pageable = new PageRequest(pageNum - 1, 4, sort);    // （当前页， 每页记录数， 排序方式）
+        Page<Question> questionPage = questionService.findAll(pageable);
+        logger.info("Question pageNum: " + pageNum);
+        model.addAttribute("questionPage", questionPage);
+        model.addAttribute("teacherNo", teacherNo);
+        model.addAttribute("pageNum", pageNum);
+
+        return "mission/question";
+    }
+
+    @GetMapping("/questioncommonlist")
+    @ResponseBody
+    public Map<String, Object> questionCommonList(@RequestParam(value = "questionId") Integer questionId) {
+        Map<String, Object> modelMap = new HashMap<String, Object>();
+        List<Answer> answerList = answerService.findAllByQuestionId(questionId);
+        if (answerList.size() >= 0) {
+            modelMap.put("questioncommonlist", answerList);
+            modelMap.put("success", true);
+        } else {
+            modelMap.put("success", false);
+        }
+        return modelMap;
+    }
+
+    @GetMapping("/addcomment")
+    @ResponseBody
+    public Map<String, Object> addComment(@RequestParam(value = "questionId") Integer questionId,
+                                          @RequestParam(value = "answerAns") String answerAns,
+                                          @RequestParam(value = "teacherId", defaultValue = "1") Integer teacherId) {
+        Map<String, Object> modelMap = new HashMap<String, Object>();
+        Date date = new Date();
+        int effectedNum = answerService.insertAnswer(questionId, answerAns, date, teacherId);
+        if(effectedNum == 1){
+            modelMap.put("success", true);
+        }else {
+            modelMap.put("success", false);
+        }
+
+        return modelMap;
+    }
+
 }

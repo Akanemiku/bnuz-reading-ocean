@@ -15,7 +15,10 @@ public class Answer {
 
     private Integer questionId;
 
-    private Integer teacherId;
+    @ManyToOne
+    @JoinColumn(name = "teacher_id")
+    private Teacher teacher;
+//    private Integer teacherId;
 
     private String answerAns;
 
