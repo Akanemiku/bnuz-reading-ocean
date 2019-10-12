@@ -14,9 +14,13 @@ import com.bnuz.ocean.utils.ResultVOUtil;
 //import com.sun.org.apache.xpath.internal.operations.Mod;
 //import com.sun.org.apache.xpath.internal.operations.Mod;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +33,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/mission")
 public class MissionController {
+    static Logger logger = LoggerFactory.getLogger(MissionController.class);
 
     @Autowired
     private MissionService missionService;
@@ -47,6 +52,9 @@ public class MissionController {
 
     @Autowired
     private EvaluateService evaluateService;
+
+    @Autowired
+    private QuestionService questionService;
 
     @GetMapping("/list")
     public String list(@RequestParam(value = "teacherNo", defaultValue = "233") String teacherNo,
@@ -79,6 +87,24 @@ public class MissionController {
         }
 
         return "mission/index";
+    }
+
+    @GetMapping("/question")
+    public String question(@RequestParam(value = "teacherNo", defaultValue = "233") String teacherNo,
+                           Integer pageNum, Model model){
+
+        if(pageNum == null){
+            pageNum = 1;
+        }
+        Sort sort =  new Sort(Sort.Direction.DESC, "createTime");   // 排序方式，这里是以“questionId”为标准进行降序
+        Pageable pageable = new PageRequest(pageNum-1, 5, sort);    // （当前页， 每页记录数， 排序方式）
+        Page<Question> questionPage = questionService.findAll(pageable);
+        logger.info("Question pageNum: " + pageNum);
+        model.addAttribute("questionPage", questionPage);
+        model.addAttribute("teacherNo", teacherNo);
+        model.addAttribute("pageNum", pageNum);
+
+        return "mission/question";
     }
 
     @PostMapping("/save")

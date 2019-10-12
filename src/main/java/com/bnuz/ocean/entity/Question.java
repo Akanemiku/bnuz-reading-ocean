@@ -13,11 +13,19 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer questionId;
 
-    private Integer bookId;
+    @OneToOne
+    @JoinColumn(name = "book_id")
+    private Book book;
+//    private Integer bookId;
 
-    private Integer studentId;
+    @OneToOne
+    @JoinColumn(name = "student_id")
+    private Student student;
+//    private Integer studentId;
 
     private Integer questionStat;
 
     private Date createTime;
+
+    private String questionDes;
 }
