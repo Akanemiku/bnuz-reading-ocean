@@ -1,10 +1,335 @@
 $(document).ready(function () {
+    // QueryAllStu();
+    // QueryAllClass();
     addTask();
-});
+})
 
 var checkedBookNumber = 0;
 
+// 查询班级所有学生，以及输入关键字查询学生
+function QueryAllStu() {
+    var path = $('input[type="hidden"]').val();
+    var classList = $('.classList li');
+    var classId = classList.eq(0).prop('id');
+    var stu = $('.stuList');
+    var classLen = classList.length;
+    var stuListLen = $('.obj .stuList').length;
+    // 初始化学生列表
+    classList.each(function (index) {
+        $('.obj').append('<label class="All"><input type="checkbox"> <span class="selectAll">全选</span></label>')
+        $('.obj').append('<ul class="stuList"></ul>');
+        $('.obj').append('<div><button class="down"></button></div>');
+        $('.stuList').hide();
+        $('.All').hide();
+        $('.down').hide();
+        this.isClick = true;
+        $(this).click(function () {
+            if (this.isClick) {
+                classList.removeClass('color');
+                $(this).addClass('color');
+                classId = $(this).prop('id');
+                $.ajax({
+                    type: 'GET',
+                    url: path + "/task/query/students",
+                    data: {
+                        'classId': classId
+                    },
+                    cache: false,
+                    dataType: 'json',
+                    success: function (json) {
+                        $('.All').eq(index).show();
+                        $('.stuList').eq(index).show();
+                        $('.down').eq(index).show();
+                        // 本班所有学生列表
+                        $.each(json.data, function () {
+                            $('.stuList').eq(index).append('<li><input type="checkbox" id=' + this.userId + ' name="students">' + this.name + '</li>');
+                        });
+                        search(index);
+                        select(index);
+                        showAllStu(index);
 
+                    },
+                    error: function () {
+                        return false;
+                    }
+                });
+            }
+
+            this.isClick = false;
+        });
+    });
+
+    $('.classList li').eq(0).click();
+    // 点击班级列表显示对应班级的学生列表
+    classList.each(function (index) {
+        $(this).click(function () {
+            classList.removeClass('color');
+            $(this).addClass('color');
+            $('.stuList').hide();
+            $('.All').hide();
+            $('.down').hide();
+            $('.All').eq(index).show();
+            $('.stuList').eq(index).show();
+            $('.down').eq(index).show();
+            search(index);
+            select(index);
+        });
+    });
+}
+
+//查询各年级的班
+function QueryAllClass(){
+    var obj2 = $('#obj2');
+    var gradeList = $('.gradeList li');
+    var g1 = $("#grade1");
+    var g2 = $("#grade2");
+    var g3 = $("#grade3");
+    var g4 = $("#grade4");
+    var g5 = $("#grade5");
+    var g6 = $("#grade6");
+    var touch1 = $("#touch1");
+    var touch2 = $("#touch2");
+    var touch3 = $("#touch3");
+    var touch4 = $("#touch4");
+    var touch5 = $("#touch5");
+    var touch6 = $("#touch6");
+    var flag1 = 0;
+    var flag2 = 0;
+    var flag3 = 0;
+    var flag4 = 0;
+    var flag5 = 0;
+    var flag6 = 0;
+//	$('#obj2').append('<label class="All2"><input type="checkbox" id = "touch"> <span class="selectAll2">全选</span><span class="deselectAll2" style="display: none;">全不选</span></label>')
+//	$('#obj2').append('<ul class="classesList"></ul>');
+    $.ajax({
+        type:"GET",
+        url: path + "/task/query/allClasses",
+        cache: false,
+        dataType: "json",
+        success: function (json) {
+            g1.click(function(){
+                if(flag1 == 0){
+                    $("#a1").show();
+                    $("#cla1").show();
+                    $("#obj2 label").not("#a1").each(function() {
+                        $(this).hide();
+                    })
+                    $("#obj2 ul").not("#cla1").each(function() {
+                        $(this).hide();
+                    })
+                    gradeList.removeClass('color');
+                    $(this).addClass('color');
+                    $.each(json.data[0].classes, function (index) {
+                        $('#cla1').append('<li><input type="checkbox" id='
+                            + json.data[0].classes[index].classId + ' >'+json.data[0].gradeName
+                            + json.data[0].classes[index].className+'</li>');
+                    });
+                    select2(1);
+                    flag1++;
+                }else{
+                    $("#a1").show();
+                    $("#cla1").show();
+                    $("#obj2 label").not("#a1").each(function() {
+                        $(this).hide();
+                    })
+                    $("#obj2 ul").not("#cla1").each(function() {
+                        $(this).hide();
+                    })
+                    gradeList.removeClass('color');
+                    $(this).addClass('color');
+                    select2(1);
+                }
+
+
+//
+            })
+            g2.click(function(){
+                if(flag2 == 0){
+                    $("#a2").show();
+                    $("#cla2").show();
+                    $("#obj2 label").not("#a2").each(function() {
+                        $(this).hide();
+                    })
+                    $("#obj2 ul").not("#cla2").each(function() {
+                        $(this).hide();
+                    })
+                    gradeList.removeClass('color');
+                    $(this).addClass('color');
+                    $.each(json.data[1].classes, function (index) {
+                        $('#cla2').append('<li><input type="checkbox" id='
+                            + json.data[1].classes[index].classId + ' >'+json.data[1].gradeName
+                            + json.data[1].classes[index].className+'</li>');
+                    });
+                    select2(2);
+                    flag2++;
+                }else{
+                    $("#a2").show();
+                    $("#cla2").show();
+                    $("#obj2 label").not("#a2").each(function() {
+                        $(this).hide();
+                    })
+                    $("#obj2 ul").not("#cla2").each(function() {
+                        $(this).hide();
+                    })
+                    gradeList.removeClass('color');
+                    $(this).addClass('color');
+                    select2(2);
+                }
+
+
+//
+            })
+            g3.click(function(){
+                if(flag3 == 0){
+                    $("#a3").show();
+                    $("#cla3").show();
+                    $("#obj2 label").not("#a3").each(function() {
+                        $(this).hide();
+                    })
+                    $("#obj2 ul").not("#cla3").each(function() {
+                        $(this).hide();
+                    })
+                    gradeList.removeClass('color');
+                    $(this).addClass('color');
+                    $.each(json.data[2].classes, function (index) {
+                        $('#cla3').append('<li><input type="checkbox" id='
+                            + json.data[2].classes[index].classId + ' >'+json.data[2].gradeName
+                            + json.data[2].classes[index].className+'</li>');
+                    });
+                    select2(3);
+                    flag3++;
+                }else{
+                    $("#a3").show();
+                    $("#cla3").show();
+                    $("#obj2 label").not("#a3").each(function() {
+                        $(this).hide();
+                    })
+                    $("#obj2 ul").not("#cla3").each(function() {
+                        $(this).hide();
+                    })
+                    gradeList.removeClass('color');
+                    $(this).addClass('color');
+                    select2(3);
+                }
+
+
+//
+            })
+            g4.click(function(){
+                if(flag4 == 0){
+                    $("#a4").show();
+                    $("#cla4").show();
+                    $("#obj2 label").not("#a4").each(function() {
+                        $(this).hide();
+                    })
+                    $("#obj2 ul").not("#cla4").each(function() {
+                        $(this).hide();
+                    })
+                    gradeList.removeClass('color');
+                    $(this).addClass('color');
+                    $.each(json.data[3].classes, function (index) {
+                        $('#cla4').append('<li><input type="checkbox" id='
+                            + json.data[3].classes[index].classId + ' >'+json.data[3].gradeName
+                            + json.data[3].classes[index].className+'</li>');
+                    });
+                    select2(4);
+                    flag4++;
+                }else{
+                    $("#a4").show();
+                    $("#cla4").show();
+                    $("#obj2 label").not("#a4").each(function() {
+                        $(this).hide();
+                    })
+                    $("#obj2 ul").not("#cla4").each(function() {
+                        $(this).hide();
+                    })
+                    gradeList.removeClass('color');
+                    $(this).addClass('color');
+                    select2(4);
+                }
+
+
+//
+            })
+            g5.click(function(){
+                if(flag5 == 0){
+                    $("#a5").show();
+                    $("#cla5").show();
+                    $("#obj2 label").not("#a5").each(function() {
+                        $(this).hide();
+                    })
+                    $("#obj2 ul").not("#cla5").each(function() {
+                        $(this).hide();
+                    })
+                    gradeList.removeClass('color');
+                    $(this).addClass('color');
+                    $.each(json.data[4].classes, function (index) {
+                        $('#cla5').append('<li><input type="checkbox" id='
+                            + json.data[4].classes[index].classId + ' >'+json.data[4].gradeName
+                            + json.data[4].classes[index].className+'</li>');
+                    });
+                    select2(5);
+                    flag5++;
+                }else{
+                    $("#a5").show();
+                    $("#cla5").show();
+                    $("#obj2 label").not("#a5").each(function() {
+                        $(this).hide();
+                    })
+                    $("#obj2 ul").not("#cla5").each(function() {
+                        $(this).hide();
+                    })
+                    gradeList.removeClass('color');
+                    $(this).addClass('color');
+                    select2(5);
+                }
+
+
+//
+            })
+            g6.click(function(){
+                if(flag6 == 0){
+                    $("#a6").show();
+                    $("#cla6").show();
+                    $("#obj2 label").not("#a6").each(function() {
+                        $(this).hide();
+                    })
+                    $("#obj2 ul").not("#cla6").each(function() {
+                        $(this).hide();
+                    })
+                    gradeList.removeClass('color');
+                    $(this).addClass('color');
+                    $.each(json.data[5].classes, function (index) {
+                        $('#cla6').append('<li><input type="checkbox" id='
+                            + json.data[5].classes[index].classId + ' >'+json.data[5].gradeName
+                            + json.data[5].classes[index].className+'</li>');
+                    });
+                    select2(6);
+                    flag6++;
+                }else{
+                    $("#a6").show();
+                    $("#cla6").show();
+                    $("#obj2 label").not("#a6").each(function() {
+                        $(this).hide();
+                    })
+                    $("#obj2 ul").not("#cla6").each(function() {
+                        $(this).hide();
+                    })
+                    gradeList.removeClass('color');
+                    $(this).addClass('color');
+                    select2(6);
+                }
+
+            })
+
+            $("#grade1").click();
+        },
+        error: function () {
+            return false;
+        }
+    });
+
+};
 // 输入关键字查找学生
 function search(index) {
     var stuName = [];
@@ -213,12 +538,195 @@ function addlist(index){
     });
 }
 
+
+//初始化书籍分类列表
+function getBookCategory(){
+    var baseUrl = $('input[type="hidden"]').val();
+    $.ajax({
+        type: 'get',
+        url: baseUrl + "/sys/query",
+        data: {
+            type: 'book_type'
+        },
+        cache: false,
+        dataType: 'json'
+    }).done(function(data){
+        // 获取分类节点
+        var categoryNode = $(".category");
+        // 插入第一个子节点：全部分类
+        categoryNode.append("<li data-category='all' class='category_all'>全部</li>");
+
+        // 根据获取数据构造剩余分类子节点
+        $.each(data.data, function(index, val){
+            categoryNode.append("<li data-category='"+ val.id +"' class='"+ val.id + "' >"+ val.name + "</li>");
+        });
+        // 每个构造的分类添加点击的事件
+        categoryNode.children().each(function(index,el){
+            $(el).click(function(event){
+                categoryNode.children().css('background-color','#ccc');
+                currentBookCate = $(el).attr("data-category");
+                $(el).css('background-color','#0c61b8');
+                currentBookPage = 1;
+                $('.bookList').empty();
+                getBooks(currentBookCate,pageSize,currentBookPage);
+            })
+        });
+
+
+
+        // 获取分类节点
+        var categoryNode2 = $(".category2");
+        // 插入第一个子节点：全部分类
+        categoryNode2.append("<li data-category='all' class='category_all2'>全部</li>");
+
+        // 根据获取数据构造剩余分类子节点
+        $.each(data.data, function(index, val){
+            categoryNode2.append("<li data-category='"+ val.id +"' class='"+ val.id + "' >"+ val.name + "</li>");
+        });
+        // 每个构造的分类添加点击的事件
+        categoryNode2.children().each(function(index,el){
+            $(el).click(function(event){
+                categoryNode2.children().css('background-color','#ccc');
+                currentBookCate = $(el).attr("data-category");
+                $(el).css('background-color','#0c61b8');
+                currentBookPage = 1;
+                $('.bookList').empty();
+                getBooks(currentBookCate,pageSize,currentBookPage);
+            })
+        });
+    })
+}
+
+// function category() {
+// var path = $('input[type="hidden"]').val();
+// $.ajax({
+// type: 'GET',
+// url: path + "/sys/query", // 书籍问题
+// data: {
+// type: 'book_type'
+// },
+// cache: false,
+// dataType: 'json',
+// success: function (json) {
+// var obj = {},
+// namesList = [],
+// category = $('.category');
+// json.data.forEach(function (value, index, array) {
+// namesList.push(value.name);
+// obj[value.name] = value.id;
+// });
+// category.html('<li>全部</li><li>' + namesList.join('</li><li>') +
+// '</li>');
+// category.find("li").click(function (event) {
+// if ($(event.target).text() !== '全部') {
+// $(this).addClass(obj[$(event.target).text()]);
+// }
+// });
+// },
+// error: function () {
+// alert('书籍分类获取失败！');
+// return false;
+// }
+// });
+// }
+
+
+
 var currentBookPage = 1;
 var maxBookPage = 0;
 var pageSize = 10;
 var currentBookCate = "all";
 var selectedBook = [];
+// 初始化书籍列表
+function getBooks(category,bookNum,pageNum,searchBookText){
+    var baseUrl = $('input[type="hidden"]').val();
+    // 存放书籍列表
+    var bookList = [];
+    // 发送请求
+    $.ajax({
+        type: "get",
+        url: baseUrl.concat("/book/query"),
+        data:{
+            size : bookNum,
+            page : pageNum,
+            categoryId : category == "all" ? null : category,
+            bookName : searchBookText ? searchBookText : null
+        },
+        dataType : "json"
+    }).done(function(data){// 请求完成处理
+        bookList = data.dataList;
+        // 存储最大页码
+        maxBookPage = data.pages;
+        $.each(bookList,function(index,val){
+            $('.bookList').append('<li class=' + val.categoryId +  ' id=' + val.id + ' title='+ val.name
+                +'><img src=' + val.picUrl + '><h3>' + val.name + '</h3></li>');
+        });
+        // 当前为第一页且页数大于1
+        if(currentBookPage === 1 && maxBookPage > 1){
+            $('.first').addClass('disable');
+            $('.prev').addClass('disable');
+            $('.next').removeClass('disable');
+            $('.last').removeClass('disable');
+        }
+        else if(currentBookPage > 1 && maxBookPage > currentBookPage){
+            $('.Page').children().each(function(index,el){
+                $(el).removeClass("disable");
+            });
+        }
+        else if(maxBookPage === currentBookPage && maxBookPage > 1){
+            $('.next').addClass('disable');
+            $('.last').addClass('disable');
+            $('.first').removeClass('disable');
+            $('.prev').removeClass('disable');
+        }
+        else if(maxBookPage === 1){
+            $('.Page').children().each(function(index,el){
+                $(el).addClass("disable");
+            });
+        }
 
+        // 选择书籍
+        $('.bookList').children().each(function (index,el) {
+            $.each(selectedBook, function(index, item) {
+                if (item.attr("id") === $(el).attr("id")) {
+                    $(el).addClass("style");
+                }
+            })
+
+            $(el).click(function () {
+                // 限制8本
+                var hasSelectedBook = selectedBook.some(function(val) {
+                    return val.attr("id") === $(el).attr("id")
+                })
+                if (hasSelectedBook) {
+                    $(el).removeClass('style');
+                    selectedBook = selectedBook.filter(function(book) {
+                        return book.attr("id") !== $(el).attr("id");
+                    });
+                } else if (!hasSelectedBook && selectedBook.length < 8){
+                    selectedBook.push($(el))
+                    $(el).addClass('style');
+                }  else if (selectedBook.length === 8) {
+                    alert("最多可以选择8本书籍")
+                }
+            });
+        });
+
+        var bookIdList = [], // 发布任务页面的书籍ID列表
+            idLength = $('.body ul li').length;
+        for (var i = 0; i < idLength; i++) {
+            var bookId = $('.body ul li').eq(i).prop('id');
+            bookIdList.push(bookId);
+        }
+        for (var j = 0; j < idLength; j++) {
+            $('.bookList li').each(function (index) {
+                if ($(this).prop('id') === bookIdList[j]) {
+                    $(this).addClass('style');
+                }
+            });
+        }
+    })
+}
 
 // 页面加载完绑定按钮
 $(document).ready(function(){
@@ -405,14 +913,598 @@ $(document).ready(function(){
 
 })
 
+//// 初始化书籍列表
+//function bookList() {
+//    var path = $('input[type="hidden"]').val();
+//    var bookChecked = $('.bookList li[class="style"]');
+//    $.ajax({
+//        type: 'GET',
+//        url: path + "/book/query",
+//        data: {
+//            'size': 115 // 书本总数
+//        },
+//        cache: false,
+//        dataType: 'json',
+//        success: function (json) {
+//            var sum = 0;
+//            var bookList = $('.bookList');
+//            $('.bookList').find("li").remove();
+//            var bookLength = json.total;
+//            var size = 10; // 每页显示10本书
+//            $.each(json.dataList, function () {
+//                bookList.append('<li class=' + this.categoryId + ' id=' + this.id + ' title=' + this.name +
+//                    '><img src=' + this.picUrl + '><h3>' + this.name + '</h3></li>');
+//            });
+//            $('.bookList').find("li").hide();
+//            for (var i = 0; i < size; i++) {
+//                $('.bookList li').eq(i).show();
+//            }
+//            var minNum = 0, // 最小
+//                maxNum = size, // 最大
+//                lastMinNum = parseInt(bookLength / size) * size; // 最后一页的最小
+//            $('.prev').addClass('disable');
+//            $('.next').removeClass('disable');
+//            $('.last').removeClass('disable');
+//            $('.first').addClass('disable');
+//            // 控制当前页数显示的书籍
+//            function initbook() {
+//                $('.bookList').find("li").hide();
+//                $('.Page').find('li').removeClass('disable');
+//                for (var k = minNum; k < maxNum; k++) {
+//                    $('.bookList li').eq(k).show();
+//                }
+//                if (minNum === 0) {
+//                    $('.first').addClass('disable');
+//                    $('.prev').addClass('disable');
+//                } else if (maxNum === bookLength) {
+//                    $('.next').addClass('disable');
+//                    $('.last').addClass('disable');
+//                }
+//            }
+//
+//            // 第一页
+//            $('.first').click(function () {
+//                minNum = 0;
+//                maxNum = size;
+//                initbook();
+//            });
+//            // 上一页
+//            $('.prev').click(function () {
+//                if (minNum === 0) {
+//                    minNum = 0;
+//                    maxNum = size;
+//                } else if (minNum === lastMinNum) {
+//                    minNum = lastMinNum - size;
+//                    maxNum = lastMinNum;
+//                } else {
+//                    minNum -= size;
+//                    maxNum -= size;
+//                }
+//                initbook();
+//            });
+//            // 下一页
+//            $('.next').click(function () {
+//                if (maxNum === lastMinNum) {
+//                    minNum = lastMinNum;
+//                    maxNum = bookLength;
+//                } else if (minNum === lastMinNum) {
+//                    minNum = lastMinNum;
+//                    maxNum = bookLength;
+//                } else {
+//                    minNum += size;
+//                    maxNum += size;
+//                }
+//                initbook();
+//            });
+//            // 最后一页
+//            $('.last').click(function () {
+//                minNum = lastMinNum;
+//                maxNum = bookLength;
+//                initbook();
+//            });
+//
+//            // 选择书籍
+//            $('.bookList').find("li").each(function (index) {
+//                $(this).click(function () {
+//                    // 限制8本
+//                    if ($(this).hasClass('style')) {
+//                        $(this).removeClass('style');
+//                        --checkedBookNumber;
+//                    } else {
+//                        if (checkedBookNumber === 8) {
+//                            alert('只能选择少于8本');
+//                        } else {
+//                            $(this).addClass('style');
+//                            ++checkedBookNumber;
+//                        }
+//                    }
+//                });
+//            });
+//
+//            var books = [],
+//                bookClassList = [], // bookClassList--弹出框里边的书籍类别列表
+//                length = $('.bookList li').length;
+//            for (var i = 0; i < length; i++) {
+//                var book = $('.bookList li').eq(i).find("h3").text();
+//                var bookClass = $('.bookList li').eq(i).attr("class");
+//                books.push(book);
+//                bookClassList.push(bookClass);
+//            }
+//            // 添加style
+//            var bookIdList = [], // 发布任务页面的书籍ID列表
+//                idLength = $('.body ul li').length;
+//            for (var i = 0; i < idLength; i++) {
+//                var bookId = $('.body ul li').eq(i).prop('id');
+//                bookIdList.push(bookId);
+//            }
+//            for (var j = 0; j < idLength; j++) {
+//                $('.bookList li').each(function (index) {
+//                    if ($(this).prop('id') === bookIdList[j]) {
+//                        $(this).addClass('style');
+//                    }
+//                });
+//            }
+//            // 点击搜索按钮
+//            $('.searchBookForm button').click(function () {
+//                $('.Page').hide();
+//                var list = $('.bookList li'),
+//                    input = $('.searchBookForm input').val();
+//                list.hide();
+//                for (var k = 0; k < length; k++) {
+//                    if (books[k].indexOf(input) >= 0) {
+//                        list.eq(k).show();
+//                    }
+//                }
+//            });
+//            // 按下enter搜索
+//            $('.searchBookForm input').keydown(function () {
+//                if (event.keyCode == "13") { // keyCode=13是回车键
+//                    $('.searchBookForm button').click();
+//                }
+//            });
+//            // 点击菜单栏搜索书籍
+//            $('.category li').each(function (index) {
+//                var list = $('.bookList li');
+//                $('.category li').eq(0).css('background-color', '#0c61b8');
+//                $(this).click(function () {
+//                    $('.category li').css('background-color', '#ccc');
+//                    $(this).css('background-color', '#0c61b8');
+//                    var categoryClass = $(this).attr("class");
+//                    list.hide();
+//                    if ($(this).text() == '全部') {
+//                        $('.Page').show();
+//                        minNum = 0; // 最小
+//                        maxNum = size; // 最大
+//                        initbook();
+//                        $('.prev').addClass('disable');
+//                        $('.next').removeClass('disable');
+//                        $('.last').removeClass('disable');
+//                        $('.first').addClass('disable');
+//                    } else {
+//                        $('.Page').hide();
+//                        for (var k = 0; k < length; k++) {
+//                            if (bookClassList[k].indexOf(categoryClass) >= 0) {
+//                                list.eq(k).show();
+//                            }
+//                        }
+//                    }
+//                });
+//            });
+//        },
+//        error: function () {
+//            alert('搜索失败！');
+//            return false;
+//        }
+//    });
+//}
+
+// 发布任务
+var textType = "";
+
+function addTask() {
+    var path = $('input[type="hidden"]').val();
+    $("#submit1").click(function () {
+        var sum = 0;
+        var taskTitle = $('#taskTitle').val(), // 题目
+            taskDescribe = $('#taskDescribe').val(), // 任务描述
+            startDate = $('#startTime').val(), // 开始时间
+            endDate = $('#endTime').val(); // 结束时间
+        if (startDate === '') {
+            alert('请选择开始时间');
+            return false;
+        } else if (endDate === '') {
+            alert('请选择结束时间');
+            return false;
+        }
+
+        // 任务类型
+        textType = "";
+        $('.describe ul li').each(function (index) {
+            textType += ((index + 1) + '.' + $(this).text());
+        });
 
 
+        startDate = startDate.replace(/-/g,"/") + ' 00:00:00';
+        endDate = endDate.replace(/-/g,"/")  + ' 23:59:59';
+        var startStamp = Date.parse(new Date(startDate)), // 转换成时间戳，ie不兼容
+            endStamp = Date.parse(new Date(endDate));
+        if(!startStamp){console.log('asdas');}
+        var bookList = $('.body ul li');
+        var bookIdList = [];
+
+        // 把本地选择的书籍数据推入到要发送的数组中
+        $.each(selectedBook, function(index,val){
+            var id = val.attr("id");
+            id = id + "chose";
+            bookIdList.push({"id": val.attr("id"),"necessary" : $("input[name='"+id+"']:checked").val()});
+
+        });
+        if (bookIdList.length == 0) {
+            alert('请选择书籍');
+            return false;
+        }
+        // 获取选中的学生列表
+        var stuInput = $('.stuList li').find("input"),
+            stuIdList = [],
+            stuIdObject = new Object();
+        stuInput.each(function (index) {
+            var stuID = $(this).prop('id');
+            if ($(this).prop("checked")) {
+                sum++;
+                stuIdObject = {"userId": stuID};
+                stuIdList.push(stuIdObject);
+            }
+        });
+        // 选中的学生对象
+
+        var stuObj = {
+            "task": {
+                "taskTitle": taskTitle,
+                "taskDescribe": taskDescribe,
+                "taskType": textType,
+                "startDate": startStamp,
+                "endDate": endStamp
+            },
+            "books": bookIdList,
+            "students": stuIdList
+        };
+        stuObj = JSON.stringify(stuObj);
+
+        if (taskTitle.replace(/\s/g, '').length === 0) {
+            alert('请填写任务题目');
+            return false;
+        } else if (taskDescribe.replace(/\s/g, '').length === 0) {
+            alert('请输入您要发布的任务描述');
+            return false;
+        } else if (sum <= 0) {
+            alert('请选择任务对象');
+            return false;
+        } else if (startDate > endDate) {
+            alert('请重新选择结束日期');
+            return false;
+        } else {
+            $.ajax({
+                url: path + '/task/add',
+                type: 'post',
+                secureuri: false,
+                dataType: 'json',
+                data: {
+                    "taskJson": stuObj
+                },
+                success: function (taskJson) {
+                    alert('发布任务成功!');
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000)
+                },
+                error: function () {
+                    alert('任务发布失败!');
+                }
+            });
+        }
+        return false;
+    });
+    //竞赛
+    $("#submit2").click(function () {
+        var sum = 0;
+        // 获取选中的班级列表
+        var taskTitle = $('#taskTitle2').val();
+        var taskDescribe = $('#describe2').val();
+        var classInput = $('.classesList li').find("input"),
+            classIdList = [],
+            classIdObject = new Object();
+        classInput.each(function (index) {
+            var classID = $(this).prop('id');
+            if ($(this).prop("checked")) {
+                sum++;
+                classIdObject = {"classId": classID};
+                classIdList.push(classIdObject);
+            }
+        });
+        // 把本地选择的书籍数据推入到要发送的数组中
+        var bookList = $('.body2 ul li');
+        var bookIdList = [];
+        $.each(selectedBook, function(index,val){
+            var id = val.attr("id");
+            id = id + "chose";
+            bookIdList.push({"id": val.attr("id"),"necessary" : $("input[name='"+id+"']:checked").val()});
+        });
+        //拿到日期和时间
+        var startDate = $('#startTime2').val(), // 开始时间
+            endDate = $('#endTime2').val(),// 结束时间
+            testTime = $('#testTime').val();
+        if (startDate === '') {
+            alert('请选择开始时间');
+            return false;
+        } else if (endDate === '') {
+            alert('请选择结束时间');
+            return false;
+        }else if (endDate >= startDate ) {
+            alert('请重新选择结束日期');
+            return false;
+        }else if (testTime === '00:00') {
+            alert('请选择考试时长');
+            return false;
+        }
+
+        startDate = startDate.replace(/-/g,"/") + ' 00:00:00';
+        endDate = endDate.replace(/-/g,"/")  + ' 23:59:59';
+        var arr = testTime.split(':');
+        var hour = arr[0];
+        var minute = arr[1];
+        var limitime = hour * 3600 + minute * 60;
+//		     alert(limitime);
+        var startStamp = Date.parse(new Date(startDate)), // 转换成时间戳，ie不兼容
+            endStamp = Date.parse(new Date(endDate));
+//		     timeStamp = Date.parse(new Date(limitime));
+//		     alert(timeStamp);
+        //获取主观题
+        var taskIdList = [];
+        var taskIdObject = new Object();
+        var taskList = [];//主观题内容
+
+        $('.body_right div textarea').each(function(i){
+            taskIdList.push($(this).attr("id"));//获取主观题的id
+            var id = taskIdList[i];
+            taskIdObject = {"question":$('#'+id).val()};
+            taskList.push(taskIdObject);
+        });
+        // 选中的班级对象
+        var classObj = {
+            "task": {
+                "taskTitle": taskTitle,
+                "taskDescribe":taskDescribe,
+                "startDate": startStamp,
+                "endDate": endStamp,
+                "limitTime": limitime
+            },
+            "books": bookIdList,
+            "clazzs": classIdList,
+            "questions":{
+                "sList": taskList
+            }
+        };
+        classObj = JSON.stringify(classObj);
+
+        if (taskTitle.replace(/\s/g, '').length === 0) {
+            alert('请填写任务名');
+            return false;
+        } else if (taskList.length === 0|| taskList[0] === '') {
+            alert('请输入您要发布的题目描述');
+            return false;
+        } else if (sum <= 0) {
+            alert('请选择任务对象');
+            return false;
+        } else if (startDate > endDate) {
+            alert('请重新选择结束日期');
+            return false;
+        } else {
+            $.ajax({
+                url: path + '/task/addContestTask',
+                type: 'post',
+                secureuri: false,
+                dataType: 'json',
+                data: {
+                    "taskJson": classObj
+                },
+                success: function (data) {
+                    console.log(data);
+                    console.log(classObj);
+                    if(data.code == 200){
+                        alert('发布任务成功!');
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1000)
+                    }else{
+                        alert(data.result);
+                    }
+
+                },
+                error: function (data) {
+                    console.log(data)
+                    console.log(classObj)
+                    alert('任务发布失败!');
+                }
+            });
+        }
+        return false;
+    });
+}
+
+// 获取所有行元素
+var published = $('.published table tr');
+
+$('.updateTask').each(function(index) {
+    $(this).click(function(event) {
+        event.stopPropagation();
+        var taskId = $(this).prop('id');
+        var path = $('input[type="hidden"]').val();
+        var url = $(this).data('url');
+        $.ajax({
+            type : 'GET',
+            url : path + "/task/edit/check",
+            data : {
+                'taskId' : taskId
+            },
+            cache : false,
+            dataType : 'text',
+            success : function(data) {
+                if (parseInt(data) == 1) {
+                    alert("可以进行编辑");
+                    location.href = path+"/task/query/edit?taskId="+taskId;
+                } else {
+                    alert("无法进行编辑");
+                }
+            },
+            error : function() {
+                return false;
+            }
+        });
+    });
+});
+//删除任务
+$('.deleteTask').each(function (index) {
+    $(this).click(function (event) {
+        event.stopPropagation();
+        var isConfirmed = confirm('确认删除吗？');
+        var path = $('input[type="hidden"]').val();
+        var taskId = $(this).prop('id');
+        if (isConfirmed) {
+
+            $.ajax({
+                type: 'POST',
+                url: path + "/task/delete",
+                data: {
+                    'taskId': taskId
+                },
+                cache: false,
+                dataType: 'json',
+                success: function (json) {
+                    alert(published.eq(index + 1));
+                    published.eq(index + 1).slideUp();
+                    alert('任务删除成功!');
+
+                },
+                error: function () {
+                    return false;
+
+                }
+            });
+        } else {
+            return false;
+        }
+    });
+});
 
 
+//获取所有行元素
+var published2 = $('.main_situation table tr');
+
+$('.updateTask').each(function(index) {
+    $(this).click(function(event) {
+        event.stopPropagation();
+        var taskId = $(this).prop('id');
+        var path = $('input[type="hidden"]').val();
+        var url = $(this).data('url');
+        $.ajax({
+            type : 'GET',
+            url : path + "/task/edit/check",
+            data : {
+                'taskId' : taskId
+            },
+            cache : false,
+            dataType : 'text',
+            success : function(data) {
+                if (parseInt(data) == 1) {
+                    alert("可以进行编辑");
+                    location.href = path+"/task/query/edit?taskId="+taskId;
+                } else {
+                    alert("无法进行编辑");
+                }
+            },
+            error : function() {
+                return false;
+            }
+        });
+    });
+});
+//删除任务
+$('.deleteTask2').each(function (index) {
+    $(this).click(function (event) {
+        event.stopPropagation();
+        var isConfirmed = confirm('确认删除吗？');
+        var path = $('input[type="hidden"]').val();
+        var taskId = $(this).prop('id');
+        if (isConfirmed) {
+
+            $.ajax({
+                type: 'POST',
+                url: path + "/task/delete",
+                data: {
+                    'taskId': taskId
+                },
+                cache: false,
+                dataType: 'json',
+                success: function (json) {
+                    alert(published2.eq(index + 1));
+                    published2.eq(index + 1).slideUp();
+                    alert('任务删除成功!');
+
+                },
+                error: function () {
+                    return false;
+
+                }
+            });
+        } else {
+            return false;
+        }
+    });
+});
+//修改任务
+//function msgbox(n){
+//if(n)
+//$("#inputbox").css("display","block");
+//	else
+//		$("#inputbox").css("display","none");
 
 
+//    document.getElementById('inputbox').style.display=n?'block':'none';     /* 点击按钮打开/关闭 对话框 */
+//}
 
 
+/*function updateTask(){
+	$.ajax({
+		type: 'post',
+		dataType : "json",
+		url: path + "/task/update",
+		data: {
+		'taskId': taskId,
+		'taskDescribe':taskDescribe,
+		'taskTitle':taskTitle},
+		success: function (updateTask) {
+            alert('发布任务成功!');
+            setTimeout(function () {
+                location.reload();
+            }, 1000)
+        },
+        error: function () {
+            alert('任务发布失败!');
+        }
+
+});
+}*/
+
+//注意！刚刚注释
+// 已发布任务列表点击行跳转
+//$('.published table tr').each(function (index) {
+//    var link = $('.showDetails').eq(index - 1).attr('href');
+//    if (index > 0) {
+//        $(this).click(function () {
+//            window.location.href = link;
+//        });
+//    }
+//});
 
 // 任务详情版块
 $(document).ready(function () {
