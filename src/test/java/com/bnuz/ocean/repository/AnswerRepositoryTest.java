@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Date;
+import javax.xml.ws.Action;
 import java.util.List;
 
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -25,12 +25,18 @@ public class AnswerRepositoryTest {
         for(Answer a: answerList){
             System.out.println(a);
         }
-        assertNotEquals(1, answerList.size());
-
+        assertEquals(6, answerList.size());
     }
 
     @Test
     public void insertAnswer() {
+    }
 
+    @Test
+    public void findTeacherIdByAnswerId() {
+    }
+
+    @Test
+    public void deleteByAnswerId() {
     }
 }

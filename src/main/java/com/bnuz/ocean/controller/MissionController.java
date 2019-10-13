@@ -210,9 +210,33 @@ public class MissionController {
         Map<String, Object> modelMap = new HashMap<String, Object>();
         Date date = new Date();
         int effectedNum = answerService.insertAnswer(questionId, answerAns, date, teacherId);
-        if(effectedNum == 1){
+        if (effectedNum == 1) {
             modelMap.put("success", true);
-        }else {
+        } else {
+            modelMap.put("success", false);
+        }
+
+        return modelMap;
+    }
+
+    @GetMapping("/deletcomment")
+    @ResponseBody
+    public Map<String, Object> deletComment(@RequestParam(value = "answerId") Integer answerId) {
+        Map<String, Object> modelMap = new HashMap<String, Object>();
+        Integer teacherIdDefault = 1;
+
+        int teacherId = answerService.findTeacherIdByAnswerId(answerId);
+        if(teacherIdDefault == teacherId){
+            int effectedNum = answerService.deleteByAnswerId(answerId);
+            if(effectedNum == 1){
+                modelMap.put("permission", 1);
+                modelMap.put("success", true);
+            }else{
+                modelMap.put("errMsg", "删除失败！");
+                modelMap.put("success", false);
+            }
+        }else{
+            modelMap.put("permission", 0);
             modelMap.put("success", false);
         }
 
