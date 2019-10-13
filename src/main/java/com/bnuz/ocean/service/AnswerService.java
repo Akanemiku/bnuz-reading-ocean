@@ -13,4 +13,8 @@ public interface AnswerService {
 
     int insertAnswer(Integer questionId, String answerAns, Date date, Integer teacherId);
 
+    int findTeacherIdByAnswerId(Integer answerId);
+
+    int deleteByAnswerId(Integer answerId);
+
 }

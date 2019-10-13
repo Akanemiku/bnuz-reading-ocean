@@ -17,6 +17,7 @@ public class AnswerServiceImpl implements AnswerService {
     private AnswerRepository answerRepository;
 
     @Override
+    @Transactional
     public List<Answer> findAllByQuestionId(Integer questionId) {
         return answerRepository.findAllByQuestionId(questionId);
     }
@@ -25,5 +26,17 @@ public class AnswerServiceImpl implements AnswerService {
     @Transactional
     public int insertAnswer(Integer questionId, String answerAns, Date date, Integer teacherId) {
         return answerRepository.insertAnswer(questionId, answerAns, date, teacherId);
+    }
+
+    @Override
+    @Transactional
+    public int findTeacherIdByAnswerId(Integer answerId) {
+        return answerRepository.findTeacherIdByAnswerId(answerId);
+    }
+
+    @Override
+    @Transactional
+    public int deleteByAnswerId(Integer answerId) {
+        return answerRepository.deleteByAnswerId(answerId);
     }
 }
