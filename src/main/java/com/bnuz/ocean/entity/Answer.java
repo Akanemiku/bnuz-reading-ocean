@@ -23,4 +23,8 @@ public class Answer {
     private String answerAns;
 
     private Date createTime;
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = (Date)createTime.clone();
+    }
 }

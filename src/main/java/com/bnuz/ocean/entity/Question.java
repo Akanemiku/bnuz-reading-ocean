@@ -30,4 +30,8 @@ public class Question {
     private Date createTime;
 
     private String questionDes;
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = (Date)createTime.clone();
+    }
 }
