@@ -85,4 +85,8 @@ public class StudentServiceImpl implements StudentService {
         return studentVOList;
     }
 
+    @Override
+    public Student findStudentByStudentId(Integer studentId) {
+        return studentRepository.findStudentByStudentId(studentId);
+    }
 }

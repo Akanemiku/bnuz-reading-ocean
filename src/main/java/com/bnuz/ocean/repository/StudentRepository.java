@@ -28,4 +28,6 @@ public interface StudentRepository extends JpaRepository<Student,Integer> {
 
     @Query(nativeQuery = true,value = "select t_student_info.student_id,t_student_info.student_no,t_student_info.student_info,t_student_info.student_score from t_student_info,r_mission_student,r_evaluate_student_mission where t_student_info.student_id=r_mission_student.student_id and complete=1 and r_mission_student.mission_id=:missionId and r_evaluate_student_mission.student_id=t_student_info.student_id")
     List<Student> findAllByMissionIdWhenFinishedTaskAndAssess(@Param("missionId") String missionId);
+
+    Student findStudentByStudentId(@Param("studentId") Integer studentId);
 }

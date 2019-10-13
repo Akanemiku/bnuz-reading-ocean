@@ -1,7 +1,10 @@
 package com.bnuz.ocean.utils;
 
 import com.bnuz.ocean.VO.StudentVO;
+import com.bnuz.ocean.entity.Homework;
 import com.bnuz.ocean.entity.Student;
+import com.bnuz.ocean.service.BookService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,5 +24,10 @@ public class ConverterUtil {
             studentVOList.add(studentVO);
         }
         return studentVOList;
+    }
+
+    public static String convertStudentInfoToStudentName(String studentInfo){
+        int index = studentInfo.indexOf("班");
+        return studentInfo.substring(index+1);
     }
 }

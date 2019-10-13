@@ -31,4 +31,16 @@ public class BookServiceImplTest {
         String bookName = bookService.findBookNameByBookId(7);
         assertNotNull(bookName);
     }
+
+    @Test
+    public void findBooksByMissionId() {
+        List<Book> bookList = bookService.findBooksByMissionId("19");
+        assertNotNull(bookList);
+    }
+
+    @Test
+    public void findBookByBookId() {
+        Book book = bookService.findBookByBookId(7);
+        assertNotNull(book);
+    }
 }

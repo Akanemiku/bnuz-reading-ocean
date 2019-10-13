@@ -78,4 +78,11 @@ public interface StudentService {
      * @return
      */
     List<StudentVO> findAllStudentVOSByMissionIdWhenFinishTaskAndNotAssess(String missionId);
+
+    /**
+     * 通过学生id找到学生
+     * @param studentId
+     * @return
+     */
+    Student findStudentByStudentId(Integer studentId);
 }

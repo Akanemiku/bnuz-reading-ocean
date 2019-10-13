@@ -26,8 +26,8 @@ public class StudentRepositoryTest {
 
     @Test
     public void findAllByMissionIdWhenNotFinishedTask() {
-//        List<Student> students = studentRepository.findAllByMissionIdWhenNotFinishedTask("19");
-//        assertNotEquals(0,students.size());
+        List<Student> students = studentRepository.findAllByMissionIdWhenNotFinishedTask("19");
+        assertNotNull(students);
     }
 
     @Test
@@ -44,5 +44,13 @@ public class StudentRepositoryTest {
 
     @Test
     public void findAll() {
+        List<Student> studentList = studentRepository.findAll();
+        assertNotNull(studentList);
+    }
+
+    @Test
+    public void findStudentByStudentId() {
+        Student student = studentRepository.findStudentByStudentId(1);
+        assertNotNull(student);
     }
 }

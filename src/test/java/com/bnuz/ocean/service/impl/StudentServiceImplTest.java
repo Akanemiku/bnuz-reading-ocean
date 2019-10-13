@@ -55,7 +55,7 @@ public class StudentServiceImplTest {
     @Test
     public void findAllByMissionIdWhenIsAssessed() {
         List<Student> studentList = studentService.findAllByMissionIdWhenIsAssessed("19");
-        assertNotEquals(0, studentList.size());
+        assertNotNull(studentList);
     }
 
 
@@ -68,7 +68,7 @@ public class StudentServiceImplTest {
     @Test
     public void findAllStudentVOSByMissionIdWhenIsAssessed() {
         List<StudentVO> studentVOList = studentService.findAllStudentVOSByMissionIdWhenIsAssessed("19");
-        assertNotEquals(0, studentVOList.size());
+        assertNotNull(studentVOList);
     }
 
     @Test
@@ -90,4 +90,9 @@ public class StudentServiceImplTest {
         assertNotEquals(0, studentVOList.size());
     }
 
+    @Test
+    public void findStudentByStudentId() {
+        Student student = studentService.findStudentByStudentId(1);
+        assertNotNull(student);
+    }
 }

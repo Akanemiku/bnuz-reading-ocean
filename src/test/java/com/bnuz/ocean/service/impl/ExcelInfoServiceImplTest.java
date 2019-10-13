@@ -21,7 +21,7 @@ public class ExcelInfoServiceImplTest {
 
     @Test
     public void getExcelInfo() {
-        List<ExcelInfo> excelInfo = excelInfoService.getExcelInfo("19");
-        System.out.println(excelInfo);
+        List<ExcelInfo> excelInfo = excelInfoService.getExcelInfo("25");
+        assertNotNull(excelInfo);
     }
 }

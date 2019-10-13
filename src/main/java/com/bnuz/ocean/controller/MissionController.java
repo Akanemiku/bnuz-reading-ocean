@@ -11,6 +11,7 @@ import com.bnuz.ocean.exception.OceanException;
 import com.bnuz.ocean.repository.AnswerRepository;
 import com.bnuz.ocean.service.*;
 
+import com.bnuz.ocean.utils.ConverterUtil;
 import com.bnuz.ocean.utils.ResultVOUtil;
 //import com.sun.org.apache.xpath.internal.operations.Mod;
 //import com.sun.org.apache.xpath.internal.operations.Mod;
@@ -57,6 +58,9 @@ public class MissionController {
 
     @Autowired
     private AnswerService answerService;
+
+    @Autowired
+    private HomeworkService homeworkService;
 
     @GetMapping("/list")
     public String list(@RequestParam(value = "teacherNo", defaultValue = "233") String teacherNo,
@@ -219,4 +223,36 @@ public class MissionController {
         return modelMap;
     }
 
+    @GetMapping("/finishDetail")
+    @ResponseBody
+    public Map<String,Object> getFinishDetail(@RequestParam("studentId") Integer studentId,@RequestParam("taskId") Integer taskId){
+        Map<String,Object> map = new HashMap<>();
+        Map<String,Object> dataList = new HashMap<>();
+        List<Book> bookList = bookService.findBooksByMissionId(String.valueOf(taskId));
+        List<Homework> homeworkList = homeworkService.findAllByStudentIdAndMissionId(studentId, taskId);
+        map.put("books",bookList);
+        dataList.put("dataList",addBookNameToHomeworkList(homeworkList));
+        map.put("forumPosts",dataList);
+        map.put("studentId",studentId);
+        map.put("studentName", ConverterUtil.convertStudentInfoToStudentName(studentService.findStudentByStudentId(studentId).getStudentInfo()));
+        map.put("taskDescribe",missionService.findAllByMissionId(taskId).getMissionDesc());
+        return map;
+    }
+
+    public List<Homework> addBookNameToHomeworkList(List<Homework> homeworkList){
+        if (homeworkList!=null){
+            for (Homework homework :
+                    homeworkList) {
+                if (homework.getBookId()!=null){
+                    String bookName = bookService.findBookNameByBookId(homework.getBookId());
+                    homework.setBookName(bookName);
+                }
+                else {
+                    break;
+                }
+            }
+            return homeworkList;
+        }
+        return null;
+    }
 }

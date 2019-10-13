@@ -348,9 +348,9 @@
         <div class="Taskdescription-head">
             <ul class="Tasktop">
                 <li>任务名</li>
-                <li>今日阅读</li>
+                <li th:text="${mission.getMissionTitle()}"></li>
                 <li>任务描述</li>
-                <li>童话故事|| 你需要完成的任务类型：读后感.</li>
+                <li th:text="${mission.getMissionDesc()}"></li>
                 <li>家长评价</li>
             </ul>
         </div>
