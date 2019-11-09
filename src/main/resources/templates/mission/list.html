@@ -89,7 +89,7 @@
                 </li>
 
                 <li th:class="${current>=missionPage.getTotalPages()-1}?'disabled':''">
-                    <a th:if="${not missionPage.last}" th:href="@{/mission/list(teacherId=${teacherNo},page=${missionPage.number + 1},size=${size})}">下一页</a>
+                    <a th:if="${not missionPage.last}" th:href="@{/mission/list(teacherId=${teacherNo},page=${missionPage.number + 1},size=${size})}" id="next">下一页</a>
                     <a th:if="${missionPage.last}" href="javascript:void(0);">下一页</a>
                 </li>
             </ul>
