@@ -453,8 +453,8 @@ function Taskdetails() {
                     var newdate = new Date(timestamp);
                     str += newdate.getFullYear() + "-";
                     str += (newdate.getMonth() + 1) + "-";
-                    str += newdate.getDate() + "-";
-                    str += newdate.getHours() + " ";
+                    str += newdate.getDate() + " ";
+                    str += newdate.getHours() + ":";
                     str += newdate.getMinutes() + ":";
                     str += newdate.getSeconds();
                 }

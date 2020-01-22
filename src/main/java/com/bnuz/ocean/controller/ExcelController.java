@@ -8,8 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import sun.java2d.pipe.SpanShapeRenderer;
 
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -23,7 +25,8 @@ public class ExcelController {
     @GetMapping("/export/{missionId}")
     public void exportLecture(HttpServletResponse response, @PathVariable("missionId") String missionId){
         Date date = new Date();
-        String dateTime = date.getYear()+"-"+date.getMonth()+"-"+date.getDay();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String dateTime = dateFormat.format(date);
         List<ExcelInfo> excelInfoList = excelInfoService.getExcelInfo(missionId);
         ExcelUtil.exportExcel(excelInfoList, "老师积分统计表" ,"老师积分统计表", ExcelInfo.class, "任务详情表"+dateTime+".xls", response);
     }
