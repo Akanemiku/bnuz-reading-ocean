@@ -31,10 +31,10 @@ public class SwaggerConfig {
     }
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Spring Security JWT Guide")
-                .contact(new Contact("Akane","null","yux.liu@foxmail.com"))
+                .title("BNUZ Reading Ocean Teacher")
+                .contact(new Contact("Akane","https://github.com/Akanemiku","yux.liu@foxmail.com"))
                 .version("v1.24")
-                .termsOfServiceUrl("http://localhost:9000/")
+                .termsOfServiceUrl("http://localhost:8081/login")
                 .build();
     }
 }
