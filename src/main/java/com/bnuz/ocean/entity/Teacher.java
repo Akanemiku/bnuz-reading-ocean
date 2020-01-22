@@ -14,6 +14,8 @@ public class Teacher implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer teacherId;
 
+    private String teacherNo;
+
     private String teacherName;
 
     private String teacherPassword;
